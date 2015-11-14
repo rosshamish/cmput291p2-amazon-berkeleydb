@@ -87,7 +87,12 @@ Work item breakdown
   - P1.7: `scores.txt`
     - P1.7.1: For each record id `I`, there exists a row in the file of the form `sc:I` where `sc` is the review score.
 - Phase 2: Building indexes from data files
-  - P2.1: 
+  - P2.1: Program sorts all files from Phase 1 (except `reviews.txt`) using the linux `sort` command. Keep only unique rows. Write the sorted data back to the same filenames.
+  - P2.2: Program creates an index `rw.idx`. This is a hash index on `reviews.txt` with key = review id, data = full review record
+  - P2.3: Program creates an index `pt.idx`. This is a B+ tree index on `pterms.txt` with key = term, data = review id
+  - P2.4: Program creates an index `rt.idx`. This is a B+ tree index on `rterms.txt` with key = term, data = review id
+  - P2.5: Program creates an index `sc.idx`. This is a B+ tree index on `scores.txt` with key = score, data = review id
+  - *NOTE* Use the `db_load` command to build indexes. Use the `db_dump` command to debug.
 - Phase 3: Querying data from a CLI
   - P3.1: 
 - the report skeleton was treated as one work item
