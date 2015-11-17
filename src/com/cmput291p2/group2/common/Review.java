@@ -61,6 +61,7 @@ public class Review {
 
         try {
             for (String inputFileLine : phase1InputFileLines) {
+                // TODO replace " by &quot; and \ by \\
                 this.setAttribute(inputFileLine);
             }
         } catch (UnknownAttributeException e) {
@@ -77,10 +78,23 @@ public class Review {
      * This comma separated string will be the output of
      * {@link com.cmput291p2.group2.Phase1.ReviewFileWriter}.
      *
+     * Format: (without the newline)
+     * <pre>
+     * reviewId,productId,"title",price,userId,"profileName",helpfulness,
+     * score,time,"summary","text"
+     * </pre>
+     *
      * This constructor should be used by {@link com.cmput291p2.group2.Phase2.IndexBuilder}.
      */
     public Review(String commaSeparatedAttributes) {
-
+        String[] attributes = commaSeparatedAttributes.split(",");
+        try {
+            for (int i = 0; i < attributes.length; i++) {
+                this.setAttribute(i, attributes[i]);
+            }
+        } catch (UnknownAttributeException e) {
+            System.err.println(e.getMessage());
+        }
     }
 
     /**
@@ -105,6 +119,14 @@ public class Review {
         this.text = text;
     }
 
+    /**
+     * Sets an attribute of the Review object based on a String of format
+     * <pre>
+     * product/productId: AB109039
+     * </pre>
+     * @param inputFileLine
+     * @throws UnknownAttributeException If the attribute name is illegal.
+     */
     private void setAttribute(String inputFileLine) throws UnknownAttributeException {
         Matcher m = attributeNamePattern.matcher(inputFileLine);
         m.find();
@@ -143,6 +165,54 @@ public class Review {
                 break;
             default:
                 throw new UnknownAttributeException(String.format("Unknown attribute %s found in input", attributeName));
+        }
+    }
+
+    /**
+     * Sets an attribute of the Review object given its position in the specification
+     * of the comma-separated list in the eClass specification. The order of attributes
+     * is also as specified in this source file.
+     *
+     * @param i The index of the attribute to set
+     * @param attribute The string value of the attribute to set
+     */
+    private void setAttribute(int i, String attribute) throws UnknownAttributeException {
+        switch (i) {
+            case 0:
+                this.reviewId = Integer.valueOf(attribute);
+                break;
+            case 1:
+                this.productId = attribute;
+                break;
+            case 2:
+                this.title = attribute;
+                break;
+            case 3:
+                this.price = attribute;
+                break;
+            case 4:
+                this.userId = attribute;
+                break;
+            case 5:
+                this.profileName = attribute;
+                break;
+            case 6:
+                this.helpfulness = attribute;
+                break;
+            case 7:
+                this.score = attribute;
+                break;
+            case 8:
+                this.time = attribute;
+                break;
+            case 9:
+                this.summary = attribute;
+                break;
+            case 10:
+                this.text = attribute;
+                break;
+            default:
+                throw new UnknownAttributeException(String.format("Attribute with index %d does not exist", i));
         }
     }
 
