@@ -13,7 +13,7 @@ import java.util.Collection;
  *
  * It is run directly by Main.
  */
-public class QueryCLI implements Runnable {
+public class QueryCLI {
 
     private QueryController controller;
     private QueryIO io;
