@@ -11,7 +11,11 @@ import java.util.Collection;
  * It delegates to the QueryEngine.
  */
 public class QueryController {
-    private QueryEngine queryEngine;
+    private IQueryEngine queryEngine;
+
+    public QueryController(IQueryEngine queryEngine) {
+        this.queryEngine = queryEngine;
+    }
 
     public Collection<Review> executeQuery(String query) {
         return null;

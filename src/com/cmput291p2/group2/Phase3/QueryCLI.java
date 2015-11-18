@@ -2,6 +2,7 @@ package com.cmput291p2.group2.Phase3;
 
 import com.cmput291p2.group2.common.Review;
 
+import java.io.File;
 import java.util.Collection;
 
 /**
@@ -19,7 +20,8 @@ public class QueryCLI {
     private QueryIO io;
 
     public QueryCLI() {
-        controller = new QueryController();
+        QueryEngine qe = new QueryEngine(new File("rw.idx"), new File("pt.idx"), new File("rt.idx"), new File("sc.idx"));
+        controller = new QueryController(qe);
         io = new QueryIO();
     }
 
