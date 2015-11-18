@@ -42,7 +42,7 @@ public class ReviewFileWriter {
             String line;
             ArrayList<String> reviewDetails = new ArrayList<>();
             while ((line = reader.readLine()) != null) {
-                if (line.equals("\n")) {
+                if (line.equals("")) {
                     Review review = new Review(reviewDetails);
                     this.writeReview(review);
                     this.writePTerm(review);
