@@ -2,18 +2,16 @@ package com.cmput291p2.group2.Phase1;
 
 import com.cmput291p2.group2.common.Debugging;
 import com.cmput291p2.group2.common.Review;
+import sun.security.ssl.Debug;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 
 /**
  * class ReviewFileWriter is responsible for reading reviews from stdin and
  * writing them to comma separated files in the format specified on eClass.
  * <p/>
- * The files it writers are used by
+ * The files it writes are used by
  * {@link com.cmput291p2.group2.Phase2.IndexBuilder}.
  */
 public class ReviewFileWriter {
@@ -24,11 +22,26 @@ public class ReviewFileWriter {
     private static final String scoreFile = "scores.txt";
     private static final String regexSplit = "[^0-9a-zA-Z_]";
 
+    public void run() {
+        this.run(new BufferedReader(new InputStreamReader(System.in)));
+    }
+
     public void run(String filename) {
-        try (BufferedReader br = new BufferedReader(new FileReader(filename))) {
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader(new File(filename)));
+            this.run(reader);
+        } catch (FileNotFoundException e) {
+            if (Debugging.isEnabled()) {
+                System.err.printf("FileNotFoundException for filename: %s\n", filename);
+            }
+        }
+    }
+
+    public void run(BufferedReader reader) {
+        try {
             String line;
             ArrayList<String> reviewDetails = new ArrayList<>();
-            while ((line = br.readLine()) != null) {
+            while ((line = reader.readLine()) != null) {
                 if (line.equals("\n")) {
                     Review review = new Review(reviewDetails);
                     this.writeReview(review);
@@ -53,10 +66,15 @@ public class ReviewFileWriter {
             //As described by spec, should be: reviewid, productid, title, price, userid, profilename, helpfulness, score
             //time, summary and text
             //These fields should be escaped with "": title, profilename, summary, text
-            fw.write(String.valueOf(review.getReviewId()) + "," + review.getProductId() + ",\"" + review.getTitle() + "\"," +
-                    review.getPrice() + "," + review.getUserId() + ",\"" + review.getProfileName() +
-                    "\"," + review.getHelpfulness() + "," + review.getScore() + "," + review.getTime() + ",\"" +
-                    review.getSummary() + "\",\"" + review.getText() + "\"" + System.lineSeparator());
+            fw.write(String.format("%d,%s,\"%s\",%s,%s,\"%s\",%s,%s,%s,\"%s\",\"%s\"%s",
+                    review.getReviewId(), review.getProductId(),
+                    review.getTitle(), // " "
+                    review.getPrice(), review.getUserId(),
+                    review.getProfileName(), // " "
+                    review.getHelpfulness(), review.getScore(), review.getTime(),
+                    review.getSummary(), // " "
+                    review.getText(), // " "
+                    System.lineSeparator()));
             fw.close();
         } catch (IOException e) {
             if (Debugging.isEnabled()) {
