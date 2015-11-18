@@ -38,21 +38,46 @@ public class ReviewFileWriter {
 
     public void run(BufferedReader reader) {
         try {
+            this.clearOutputFiles();
+
             String line;
             ArrayList<String> reviewDetails = new ArrayList<>();
             while ((line = reader.readLine()) != null) {
                 if (line.equals("")) {
-                    reviewDetails = this.writeOutput(reviewDetails);
+                    reviewDetails = this.writeOutput(reviewDetails, true);
                 } else {
                     reviewDetails.add(line);
                 }
             }
-            this.writeOutput(reviewDetails);
+            this.writeOutput(reviewDetails, false);
         } catch (IOException e) {
             if (Debugging.isEnabled()) {
-                System.err.printf("Filewrite IOException: %s\n", e.getMessage());
+                System.err.printf("IOException: %s\n", e.getMessage());
             }
         }
+    }
+
+    /**
+     * Deletes all content in the following files:
+     * <ul>
+     *     <li>reviewFile</li>
+     *     <li>pTermFile</li>
+     *     <li>rTermFile</li>
+     *     <li>scoreFile</li>
+     * </ul>
+     * @throws IOException if any files are not found or if file writing fails
+     */
+    private void clearOutputFiles() throws IOException {
+        clearOutputFile(reviewFile);
+        clearOutputFile(pTermFile);
+        clearOutputFile(rTermFile);
+        clearOutputFile(scoreFile);
+    }
+
+    private void clearOutputFile(String filename) throws IOException {
+        FileWriter fw = new FileWriter(filename);
+        fw.write("");
+        fw.close();
     }
 
     /**
@@ -64,30 +89,39 @@ public class ReviewFileWriter {
      * @param reviewDetails Details of the review to be written to files
      * @return An empty ArrayList to assign back to reviewDetails
      */
-    private ArrayList<String> writeOutput(ArrayList<String> reviewDetails) {
+    private ArrayList<String> writeOutput(ArrayList<String> reviewDetails, Boolean trailingNewline) {
         Review review = new Review(reviewDetails);
-        this.writeReview(review);
-        this.writePTerm(review);
-        this.writeRTerm(review);
-        this.writeScore(review);
+        this.appendReview(review, trailingNewline);
+        this.appendPTerm(review, trailingNewline);
+        this.appendRTerm(review, trailingNewline);
+        this.appendScore(review, trailingNewline);
         return new ArrayList<>();
     }
 
-    private void writeReview(Review review) {
+    /**
+     * Appends a review object to reviews.txt as described by spec.
+     *
+     * Should be: reviewid,productid,title,price,userid,profilename,helpfulness,score,time,summary,text
+     * These fields should be escaped with "": title, profilename, summary, text
+     *
+     * @param review the Review object to write to file.
+     * @param trailingNewline True if a newline should be printed, False otherwise
+     */
+    private void appendReview(Review review, Boolean trailingNewline) {
+        String reviewString = String.format("%d,%s,\"%s\",%s,%s,\"%s\",%s,%s,%s,\"%s\",\"%s\"%s",
+                review.getReviewId(), review.getProductId(),
+                review.getTitle(), // " "
+                review.getPrice(), review.getUserId(),
+                review.getProfileName(), // " "
+                review.getHelpfulness(), review.getScore(), review.getTime(),
+                review.getSummary(), // " "
+                review.getText());
+        if (trailingNewline) {
+            reviewString += System.lineSeparator();
+        }
         try {
             FileWriter fw = new FileWriter(reviewFile, true);
-            //As described by spec, should be: reviewid, productid, title, price, userid, profilename, helpfulness, score
-            //time, summary and text
-            //These fields should be escaped with "": title, profilename, summary, text
-            fw.write(String.format("%d,%s,\"%s\",%s,%s,\"%s\",%s,%s,%s,\"%s\",\"%s\"%s",
-                    review.getReviewId(), review.getProductId(),
-                    review.getTitle(), // " "
-                    review.getPrice(), review.getUserId(),
-                    review.getProfileName(), // " "
-                    review.getHelpfulness(), review.getScore(), review.getTime(),
-                    review.getSummary(), // " "
-                    review.getText(), // " "
-                    System.lineSeparator()));
+            fw.write(reviewString);
             fw.close();
         } catch (IOException e) {
             if (Debugging.isEnabled()) {
@@ -96,12 +130,22 @@ public class ReviewFileWriter {
         }
     }
 
-    private void writePTerm(Review review) {
+    /**
+     * Appends a review's data to pterms.txt as described by spec.
+     *
+     * @param review the Review object whose data should be appended to pterms.txt.
+     * @param trailingNewline True if a newline should be printed, False otherwise
+     */
+    private void appendPTerm(Review review, Boolean trailingNewline) {
         try {
             FileWriter fw = new FileWriter(pTermFile, true);
             for (String s : review.getTitle().split(regexSplit)) {
                 if (s.length() >= 3) {
-                    fw.write(s.toLowerCase() + "," + String.valueOf(review.getReviewId()) + System.lineSeparator());
+                    String toWrite = String.format("%s,%d", s.toLowerCase(), review.getReviewId());
+                    if (trailingNewline) {
+                        toWrite += System.lineSeparator();
+                    }
+                    fw.write(toWrite);
                 }
             }
             fw.close();
@@ -112,17 +156,31 @@ public class ReviewFileWriter {
         }
     }
 
-    private void writeRTerm(Review review) {
+    /**
+     * Appends a review's data to rterms.txt as described by spec.
+     *
+     * @param review the Review object whose data should be appended to rterms.txt.
+     * @param trailingNewline True if a newline should be printed, False otherwise
+     */
+    private void appendRTerm(Review review, Boolean trailingNewline) {
         try {
             FileWriter fw = new FileWriter(rTermFile, true);
             for (String s : review.getSummary().split(regexSplit)) {
                 if (s.length() >= 3) {
-                    fw.write(s.toLowerCase() + "," + String.valueOf(review.getReviewId()) + System.lineSeparator());
+                    String toWrite = String.format("%s,%d", s.toLowerCase() + "," + review.getReviewId());
+                    if (trailingNewline) {
+                        toWrite += System.lineSeparator();
+                    }
+                    fw.write(toWrite);
                 }
             }
             for (String s : review.getText().split(regexSplit)) {
                 if (s.length() >= 3) {
-                    fw.write(s.toLowerCase() + "," + String.valueOf(review.getReviewId()) + System.lineSeparator());
+                    String toWrite = String.format("%s,%d", s.toLowerCase() + "," + review.getReviewId());
+                    if (trailingNewline) {
+                        toWrite += System.lineSeparator();
+                    }
+                    fw.write(toWrite);
                 }
             }
             fw.close();
@@ -133,10 +191,20 @@ public class ReviewFileWriter {
         }
     }
 
-    private void writeScore(Review review) {
+    /**
+     * Appends a review's data to scores.txt as described by spec.
+     *
+     * @param review the Review object whose data should be appended to scores.txt.
+     * @param trailingNewline True if a newline should be printed, False otherwise
+     */
+    private void appendScore(Review review, Boolean trailingNewline) {
         try {
             FileWriter fw = new FileWriter(scoreFile, true);
-            fw.write(review.getScore() + "," + String.valueOf(review.getReviewId()));
+            String toWrite = String.format("%s,%d", review.getScore(), review.getReviewId());
+            if (trailingNewline) {
+                toWrite += System.lineSeparator();
+            }
+            fw.write(toWrite);
             fw.close();
         } catch (IOException e) {
             if (Debugging.isEnabled()) {
