@@ -12,8 +12,14 @@ import java.io.FileReader;
 import static org.junit.Assert.*;
 
 public class ReviewFileWriterTest {
-    private static final String TEST1_INPUT_FILENAME = "Phase1_Test1_Input.txt";
-    public static final String TEST1_EXPECTED_PREFIX = "Phase1_Test1_Expected_";
+    private static final String TEST_PATH = "src" + File.separator +
+            "com" + File.separator +
+            "cmput291p2" + File.separator +
+            "group2" + File.separator +
+            "Phase1" + File.separator +
+            "test" + File.separator;
+    private static final String TEST1_INPUT_FILENAME = TEST_PATH + "Phase1_Test1_Input.txt";
+    private static final String TEST1_EXPECTED_PREFIX = TEST_PATH + "Phase1_Test1_Expected_";
     private static final String TEST1_EXPECTED_REVIEW_FILENAME = TEST1_EXPECTED_PREFIX + ReviewFileWriter.reviewFile;
     private static final String TEST1_EXPECTED_PTERM_FILENAME = TEST1_EXPECTED_PREFIX + ReviewFileWriter.pTermFile;
     private static final String TEST1_EXPECTED_RTERM_FILENAME = TEST1_EXPECTED_PREFIX + ReviewFileWriter.rTermFile;
@@ -34,6 +40,5 @@ public class ReviewFileWriterTest {
         assertTrue(Differ.filesAreSame(TEST1_EXPECTED_RTERM_FILENAME, ReviewFileWriter.rTermFile));
         assertTrue(Differ.filesAreSame(TEST1_EXPECTED_PTERM_FILENAME, ReviewFileWriter.pTermFile));
         assertTrue(Differ.filesAreSame(TEST1_EXPECTED_SCORE_FILENAME, ReviewFileWriter.scoreFile));
-
     }
 }
