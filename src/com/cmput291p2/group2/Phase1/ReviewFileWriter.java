@@ -16,10 +16,10 @@ import java.util.ArrayList;
  */
 public class ReviewFileWriter {
 
-    private static final String reviewFile = "reviews.txt";
-    private static final String pTermFile = "pterms.txt";
-    private static final String rTermFile = "rterms.txt";
-    private static final String scoreFile = "scores.txt";
+    public static final String reviewFile = "reviews.txt";
+    public static final String pTermFile = "pterms.txt";
+    public static final String rTermFile = "rterms.txt";
+    public static final String scoreFile = "scores.txt";
     private static final String regexSplit = "[^0-9a-zA-Z_]";
 
     public void run() {

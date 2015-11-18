@@ -69,3 +69,7 @@ fabric.properties
 ## ------
 app/out/artifacts
 testlog.out
+pterms.txt
+reviews.txt
+scores.txt
+rterms.txt
