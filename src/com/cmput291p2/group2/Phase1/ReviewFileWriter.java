@@ -2,7 +2,6 @@ package com.cmput291p2.group2.Phase1;
 
 import com.cmput291p2.group2.common.Debugging;
 import com.cmput291p2.group2.common.Review;
-import sun.security.ssl.Debug;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -43,21 +42,35 @@ public class ReviewFileWriter {
             ArrayList<String> reviewDetails = new ArrayList<>();
             while ((line = reader.readLine()) != null) {
                 if (line.equals("")) {
-                    Review review = new Review(reviewDetails);
-                    this.writeReview(review);
-                    this.writePTerm(review);
-                    this.writeRTerm(review);
-                    this.writeScore(review);
-                    reviewDetails = new ArrayList<>();
+                    reviewDetails = this.writeOutput(reviewDetails);
                 } else {
                     reviewDetails.add(line);
                 }
             }
+            this.writeOutput(reviewDetails);
         } catch (IOException e) {
             if (Debugging.isEnabled()) {
                 System.err.printf("Filewrite IOException: %s\n", e.getMessage());
             }
         }
+    }
+
+    /**
+     * Writes all relevant details about a review to all relevant files.
+     * Returns a new empty ArrayList.
+     *
+     * The return value should be assigned back to reviewDetails.
+     *
+     * @param reviewDetails Details of the review to be written to files
+     * @return An empty ArrayList to assign back to reviewDetails
+     */
+    private ArrayList<String> writeOutput(ArrayList<String> reviewDetails) {
+        Review review = new Review(reviewDetails);
+        this.writeReview(review);
+        this.writePTerm(review);
+        this.writeRTerm(review);
+        this.writeScore(review);
+        return new ArrayList<>();
     }
 
     private void writeReview(Review review) {
