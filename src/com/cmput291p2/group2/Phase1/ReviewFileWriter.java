@@ -108,7 +108,7 @@ public class ReviewFileWriter {
      * @param trailingNewline True if a newline should be printed, False otherwise
      */
     private void appendReview(Review review, Boolean trailingNewline) {
-        String reviewString = String.format("%d,%s,\"%s\",%s,%s,\"%s\",%s,%s,%s,\"%s\",\"%s\"%s",
+        String reviewString = String.format("%d,%s,\"%s\",%s,%s,\"%s\",%s,%s,%s,\"%s\",\"%s\"",
                 review.getReviewId(), review.getProductId(),
                 review.getTitle(), // " "
                 review.getPrice(), review.getUserId(),
@@ -139,10 +139,13 @@ public class ReviewFileWriter {
     private void appendPTerm(Review review, Boolean trailingNewline) {
         try {
             FileWriter fw = new FileWriter(pTermFile, true);
-            for (String s : review.getTitle().split(regexSplit)) {
-                if (s.length() >= 3) {
-                    String toWrite = String.format("%s,%d", s.toLowerCase(), review.getReviewId());
-                    if (trailingNewline) {
+            String[] terms = review.getTitle().split(regexSplit);
+            for (int i=0; i < terms.length; i++) {
+                String term = terms[i];
+                if (term.length() >= 3) {
+                    String toWrite = String.format("%s,%d",
+                            term.toLowerCase(), review.getReviewId());
+                    if (i < terms.length-1 || trailingNewline) {
                         toWrite += System.lineSeparator();
                     }
                     fw.write(toWrite);
@@ -165,19 +168,21 @@ public class ReviewFileWriter {
     private void appendRTerm(Review review, Boolean trailingNewline) {
         try {
             FileWriter fw = new FileWriter(rTermFile, true);
-            for (String s : review.getSummary().split(regexSplit)) {
-                if (s.length() >= 3) {
-                    String toWrite = String.format("%s,%d", s.toLowerCase() + "," + review.getReviewId());
-                    if (trailingNewline) {
-                        toWrite += System.lineSeparator();
-                    }
+            for (String term : review.getSummary().split(regexSplit)) {
+                if (term.length() >= 3) {
+                    String toWrite = String.format("%s,%d",
+                            term.toLowerCase(), review.getReviewId());
+                    toWrite += System.lineSeparator();
                     fw.write(toWrite);
                 }
             }
-            for (String s : review.getText().split(regexSplit)) {
-                if (s.length() >= 3) {
-                    String toWrite = String.format("%s,%d", s.toLowerCase() + "," + review.getReviewId());
-                    if (trailingNewline) {
+            String[] terms = review.getText().split(regexSplit);
+            for (int i=0; i < terms.length; i++) {
+                String term = terms[i];
+                if (term.length() >= 3) {
+                    String toWrite = String.format("%s,%d",
+                            term.toLowerCase(), review.getReviewId());
+                    if (i < terms.length-1 || trailingNewline) {
                         toWrite += System.lineSeparator();
                     }
                     fw.write(toWrite);
