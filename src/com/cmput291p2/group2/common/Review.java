@@ -61,7 +61,9 @@ public class Review {
 
         try {
             for (String inputFileLine : phase1InputFileLines) {
-                // TODO replace " by &quot; and \ by \\
+                inputFileLine = inputFileLine.replaceAll("\"", "&quot;");
+                //NOTE: REGULAR EXPRESSION FOR A SINGLE \ = \\\\, STRING THAT IS \\ = \\\\
+                inputFileLine = inputFileLine.replaceAll("\\\\", "\\\\");
                 this.setAttribute(inputFileLine);
             }
         } catch (UnknownAttributeException e) {
