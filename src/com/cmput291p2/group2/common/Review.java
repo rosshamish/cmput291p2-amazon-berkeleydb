@@ -250,8 +250,12 @@ public class Review {
         return score;
     }
 
-    public Date getTime() {
+    public Date getTimeAsDate() {
         return new Date(Long.valueOf(time));
+    }
+
+    public String getTime() {
+        return time;
     }
 
     public String getSummary() {
