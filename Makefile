@@ -13,7 +13,7 @@ build1:
 
 build2:
 	mkdir -p build
-	javac -d build src/com/cmput291p2/group2/common/*.java src/com/cmput291p2/group2/Phase2/*.java
+	javac -d build src/com/cmput291p2/group2/common/*.java src/com/cmput291p2/group2/Phase1/ReviewFileWriter.java src/com/cmput291p2/group2/Phase2/*.java
 
 build3:
 	mkdir -p build
