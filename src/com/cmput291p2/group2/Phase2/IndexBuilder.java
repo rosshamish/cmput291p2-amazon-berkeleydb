@@ -1,6 +1,8 @@
 package com.cmput291p2.group2.Phase2;
 
+import com.cmput291p2.group2.Phase1.ReviewFileWriter;
 import com.cmput291p2.group2.common.Debugging;
+import com.cmput291p2.group2.common.Review;
 
 import java.io.IOException;
 
@@ -14,11 +16,20 @@ import java.io.IOException;
  */
 public class IndexBuilder implements Runnable {
 
+    public static final String rwIndexFilename = "rw.idx";
+    public static final String ptIndexFilename = "pt.idx";
+    public static final String rtIndexFilename = "rt.idx";
+    public static final String scIndexFilename = "sc.idx";
+
     private static final String allowScript = "chmod u+x break.pl";
-    private static final String makeRW = "cat reviews.txt | ./break.pl | db_load -c duplicates=1 -T -t hash rw.idx";
-    private static final String makePT = "cat pterms.txt | sort -u | ./break.pl | db_load -c duplicates=1 -T -t btree pt.idx";
-    private static final String makeRT = "cat rterms.txt | sort -u | ./break.pl | db_load -c duplicates=1 -T -t btree rt.idx";
-    private static final String makeSC = "cat scores.txt | sort -u | ./break.pl | db_load -c duplicates=1 -T -t btree sc.idx";
+    private static final String makeRW = String.format("cat %s | ./break.pl | db_load -c duplicates=1 -T -t hash %s",
+            ReviewFileWriter.reviewFile, rwIndexFilename);
+    private static final String makePT = String.format("cat %s | sort -u | ./break.pl | db_load -c duplicates=1 -T -t btree %s",
+            ReviewFileWriter.pTermFile, ptIndexFilename);
+    private static final String makeRT = String.format("cat %s | sort -u | ./break.pl | db_load -c duplicates=1 -T -t btree %s",
+            ReviewFileWriter.rTermFile, rtIndexFilename);
+    private static final String makeSC = String.format("cat %s | sort -u | ./break.pl | db_load -c duplicates=1 -T -t btree %s",
+            ReviewFileWriter.scoreFile, scIndexFilename);
 
 
     public void run() {
@@ -33,7 +44,13 @@ public class IndexBuilder implements Runnable {
             if (Debugging.isEnabled()) {
                  System.err.printf("ShellFailed IOException: %s\n", e.getMessage());
             }
+            return;
         }
+        System.out.println("Success. Files created:");
+        System.out.printf("\t%s\n", rwIndexFilename);
+        System.out.printf("\t%s\n", ptIndexFilename);
+        System.out.printf("\t%s\n", rtIndexFilename);
+        System.out.printf("\t%s\n", scIndexFilename);
     }
 
 }

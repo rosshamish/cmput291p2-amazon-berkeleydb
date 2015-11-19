@@ -54,7 +54,13 @@ public class ReviewFileWriter {
             if (Debugging.isEnabled()) {
                 System.err.printf("IOException: %s\n", e.getMessage());
             }
+            return;
         }
+        System.out.println("Success. Files created:");
+        System.out.printf("\t%s\n", reviewFile);
+        System.out.printf("\t%s\n", pTermFile);
+        System.out.printf("\t%s\n", rTermFile);
+        System.out.printf("\t%s\n", scoreFile);
     }
 
     /**
