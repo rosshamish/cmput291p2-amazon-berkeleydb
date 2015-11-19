@@ -2,7 +2,6 @@ package com.cmput291p2.group2.Phase2;
 
 import com.cmput291p2.group2.Phase1.ReviewFileWriter;
 import com.cmput291p2.group2.common.Debugging;
-import com.cmput291p2.group2.common.Review;
 
 import java.io.IOException;
 
@@ -10,7 +9,7 @@ import java.io.IOException;
  * class IndexBuilder is responsible for creating Berkeley DB indexes
  * using the data files written from Phase 1 by
  * {@link com.cmput291p2.group2.Phase1.ReviewFileWriter}.
- *
+ * <p/>
  * The indexes it creates are used by
  * {@link com.cmput291p2.group2.Phase3.QueryCLI}.
  */
@@ -40,9 +39,9 @@ public class IndexBuilder implements Runnable {
             run.exec(new String[]{"/bin/sh", "-c", makePT});
             run.exec(new String[]{"/bin/sh", "-c", makeRT});
             run.exec(new String[]{"/bin/sh", "-c", makeSC});
-        }  catch (IOException e) {
+        } catch (IOException e) {
             if (Debugging.isEnabled()) {
-                 System.err.printf("ShellFailed IOException: %s\n", e.getMessage());
+                System.err.printf("ShellFailed IOException: %s\n", e.getMessage());
             }
             return;
         }

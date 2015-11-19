@@ -35,12 +35,12 @@ public class QueryController {
      * <p/>
      * It is up to the implementer whether
      * (a) the QueryEngine has methods specific to each index,
-     *     and the QueryController decides which indexes to use and
-     *     calls the specific methods, or
+     * and the QueryController decides which indexes to use and
+     * calls the specific methods, or
      * (b) the QueryEngine has one method, executeQuery, and
-     *     the QueryController calls that on each subquery. The QueryEngine
-     *     decides which indexes to use to perform the query.
-     *
+     * the QueryController calls that on each subquery. The QueryEngine
+     * decides which indexes to use to perform the query.
+     * <p/>
      * I'm partial to (b).
      *
      * @param query the query (containing 1..N sub-queries)

@@ -11,11 +11,11 @@ import java.util.Collection;
 /**
  * class QueryIO is responsible for collecting user input from the command line, and for
  * printing output back to the user.
- *
+ * <p/>
  * It is expected to delegate:
  * - building the query from the input string
  * - executing the query on the indexes
- *
+ * <p/>
  * It is used by QueryCLI.
  */
 public class QueryIO {

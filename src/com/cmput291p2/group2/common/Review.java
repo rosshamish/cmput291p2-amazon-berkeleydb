@@ -7,33 +7,27 @@ import java.util.regex.Pattern;
 
 /**
  * class Review models a product review. It can be built by supplying either:
- *
+ * <p/>
  * <ul>
- *     <li>a list of strings in the format expected in stdin by Phase 1's
- *         {@link com.cmput291p2.group2.Phase1.ReviewFileWriter}. This guarantees
- *         unique review ids during the lifetime of the program.
- *     </li>
- *     <li>
- *         a list of strings in the format expected as input by Phase 2's
- *         {@link com.cmput291p2.group2.Phase2.IndexBuilder}. This is the same
- *         format expected to be outputted by Phase 1's
- *         {@link com.cmput291p2.group2.Phase1.ReviewFileWriter}.
- *     </li>
- *     <li>
- *         all required attributes, including the review id
- *     </li>
+ * <li>a list of strings in the format expected in stdin by Phase 1's
+ * {@link com.cmput291p2.group2.Phase1.ReviewFileWriter}. This guarantees
+ * unique review ids during the lifetime of the program.
+ * </li>
+ * <li>
+ * a list of strings in the format expected as input by Phase 2's
+ * {@link com.cmput291p2.group2.Phase2.IndexBuilder}. This is the same
+ * format expected to be outputted by Phase 1's
+ * {@link com.cmput291p2.group2.Phase1.ReviewFileWriter}.
+ * </li>
+ * <li>
+ * all required attributes, including the review id
+ * </li>
  * </ul>
  */
 public class Review {
     private static Integer nextReviewId = 1;
-    private Integer getNextReviewId() {
-        return nextReviewId++;
-    }
-
     private static Pattern attributeNamePattern = Pattern.compile("\\w+/(\\w+): (.*)");
-
     private Integer reviewId;
-
     private String productId;
     private String title;
     private String price;
@@ -44,16 +38,15 @@ public class Review {
     private String time;
     private String summary;
     private String text;
-
     /**
      * Creates a Review object given a list of strings as specified in the eClass
      * specification and eClass example input files. These strings must be of the
      * format expected by Phase 1's {@link com.cmput291p2.group2.Phase1.ReviewFileWriter}.
-     *
+     * <p/>
      * Each string in the list is one line in the input file.
      * All attributes are expected as defined in the switch-case statement in
      * {@link Review#setAttribute(String)}
-     *
+     * <p/>
      * This constructor should be used by {@link com.cmput291p2.group2.Phase1.ReviewFileWriter}.
      */
     public Review(Collection<String> phase1InputFileLines) {
@@ -76,16 +69,16 @@ public class Review {
      * specified in the eClass specification and eClass example input files. The
      * string must be of the format expected by Phase 2's
      * {@link com.cmput291p2.group2.Phase2.IndexBuilder}.
-     *
+     * <p/>
      * This comma separated string will be the output of
      * {@link com.cmput291p2.group2.Phase1.ReviewFileWriter}.
-     *
+     * <p/>
      * Format: (without the newline)
      * <pre>
      * reviewId,productId,"title",price,userId,"profileName",helpfulness,
      * score,time,"summary","text"
      * </pre>
-     *
+     * <p/>
      * This constructor should be used by {@link com.cmput291p2.group2.Phase2.IndexBuilder}.
      */
     public Review(String commaSeparatedAttributes) {
@@ -121,11 +114,16 @@ public class Review {
         this.text = text;
     }
 
+    private Integer getNextReviewId() {
+        return nextReviewId++;
+    }
+
     /**
      * Sets an attribute of the Review object based on a String of format
      * <pre>
      * product/productId: AB109039
      * </pre>
+     *
      * @param inputFileLine
      * @throws UnknownAttributeException If the attribute name is illegal.
      */
@@ -134,7 +132,7 @@ public class Review {
         m.find();
         String attributeName = m.group(1);
         String attributeValue = m.group(2);
-        switch(attributeName) {
+        switch (attributeName) {
             case "productId":
                 this.productId = attributeValue;
                 break;
@@ -175,7 +173,7 @@ public class Review {
      * of the comma-separated list in the eClass specification. The order of attributes
      * is also as specified in this source file.
      *
-     * @param i The index of the attribute to set
+     * @param i         The index of the attribute to set
      * @param attribute The string value of the attribute to set
      */
     private void setAttribute(int i, String attribute) throws UnknownAttributeException {

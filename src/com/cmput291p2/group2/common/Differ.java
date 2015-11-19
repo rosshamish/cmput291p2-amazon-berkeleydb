@@ -1,6 +1,9 @@
 package com.cmput291p2.group2.common;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,7 +34,7 @@ public class Differ {
             return false;
         }
 
-        for (int i=0; i < expected.size(); i++) {
+        for (int i = 0; i < expected.size(); i++) {
             if (stringsAreDifferent(expected.get(i), actual.get(i))) {
                 return false;
             }
@@ -43,6 +46,7 @@ public class Differ {
     public static Boolean stringsAreDifferent(String expected, String actual) {
         return !stringsAreSame(expected, actual);
     }
+
     public static Boolean stringsAreSame(String expected, String actual) {
         return expected.equals(actual);
     }

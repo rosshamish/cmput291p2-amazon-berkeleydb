@@ -66,11 +66,12 @@ public class ReviewFileWriter {
     /**
      * Deletes all content in the following files:
      * <ul>
-     *     <li>reviewFile</li>
-     *     <li>pTermFile</li>
-     *     <li>rTermFile</li>
-     *     <li>scoreFile</li>
+     * <li>reviewFile</li>
+     * <li>pTermFile</li>
+     * <li>rTermFile</li>
+     * <li>scoreFile</li>
      * </ul>
+     *
      * @throws IOException if any files are not found or if file writing fails
      */
     private void clearOutputFiles() throws IOException {
@@ -89,7 +90,7 @@ public class ReviewFileWriter {
     /**
      * Writes all relevant details about a review to all relevant files.
      * Returns a new empty ArrayList.
-     *
+     * <p/>
      * The return value should be assigned back to reviewDetails.
      *
      * @param reviewDetails Details of the review to be written to files
@@ -106,11 +107,11 @@ public class ReviewFileWriter {
 
     /**
      * Appends a review object to reviews.txt as described by spec.
-     *
+     * <p/>
      * Should be: reviewid,productid,title,price,userid,profilename,helpfulness,score,time,summary,text
      * These fields should be escaped with "": title, profilename, summary, text
      *
-     * @param review the Review object to write to file.
+     * @param review          the Review object to write to file.
      * @param trailingNewline True if a newline should be printed, False otherwise
      */
     private void appendReview(Review review, Boolean trailingNewline) {
@@ -139,19 +140,19 @@ public class ReviewFileWriter {
     /**
      * Appends a review's data to pterms.txt as described by spec.
      *
-     * @param review the Review object whose data should be appended to pterms.txt.
+     * @param review          the Review object whose data should be appended to pterms.txt.
      * @param trailingNewline True if a newline should be printed, False otherwise
      */
     private void appendPTerm(Review review, Boolean trailingNewline) {
         try {
             FileWriter fw = new FileWriter(pTermFile, true);
             String[] terms = review.getTitle().split(regexSplit);
-            for (int i=0; i < terms.length; i++) {
+            for (int i = 0; i < terms.length; i++) {
                 String term = terms[i];
                 if (term.length() >= 3) {
                     String toWrite = String.format("%s,%d",
                             term.toLowerCase(), review.getReviewId());
-                    if (i < terms.length-1 || trailingNewline) {
+                    if (i < terms.length - 1 || trailingNewline) {
                         toWrite += System.lineSeparator();
                     }
                     fw.write(toWrite);
@@ -168,7 +169,7 @@ public class ReviewFileWriter {
     /**
      * Appends a review's data to rterms.txt as described by spec.
      *
-     * @param review the Review object whose data should be appended to rterms.txt.
+     * @param review          the Review object whose data should be appended to rterms.txt.
      * @param trailingNewline True if a newline should be printed, False otherwise
      */
     private void appendRTerm(Review review, Boolean trailingNewline) {
@@ -183,12 +184,12 @@ public class ReviewFileWriter {
                 }
             }
             String[] terms = review.getText().split(regexSplit);
-            for (int i=0; i < terms.length; i++) {
+            for (int i = 0; i < terms.length; i++) {
                 String term = terms[i];
                 if (term.length() >= 3) {
                     String toWrite = String.format("%s,%d",
                             term.toLowerCase(), review.getReviewId());
-                    if (i < terms.length-1 || trailingNewline) {
+                    if (i < terms.length - 1 || trailingNewline) {
                         toWrite += System.lineSeparator();
                     }
                     fw.write(toWrite);
@@ -205,7 +206,7 @@ public class ReviewFileWriter {
     /**
      * Appends a review's data to scores.txt as described by spec.
      *
-     * @param review the Review object whose data should be appended to scores.txt.
+     * @param review          the Review object whose data should be appended to scores.txt.
      * @param trailingNewline True if a newline should be printed, False otherwise
      */
     private void appendScore(Review review, Boolean trailingNewline) {

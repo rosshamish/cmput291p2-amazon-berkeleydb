@@ -5,11 +5,9 @@ import com.cmput291p2.group2.common.Differ;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 public class ReviewFileWriterTest {
     private static final String TEST_PATH = "src" + File.separator +

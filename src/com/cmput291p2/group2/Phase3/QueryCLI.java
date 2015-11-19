@@ -7,11 +7,11 @@ import java.util.Collection;
 
 /**
  * class QueryCLI is responsible for interacting with the user
- *
+ * <p/>
  * It delegates to:
  * - QueryIO for input and output
  * - QueryController for performing non-trivial tasks
- *
+ * <p/>
  * It is run directly by Main.
  */
 public class QueryCLI {

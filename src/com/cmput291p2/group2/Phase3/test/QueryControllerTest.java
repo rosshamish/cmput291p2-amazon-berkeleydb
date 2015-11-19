@@ -1,7 +1,6 @@
 package com.cmput291p2.group2.Phase3.test;
 
 import com.cmput291p2.group2.Phase3.QueryController;
-import com.cmput291p2.group2.Phase3.QueryEngine;
 import com.cmput291p2.group2.Phase3.stub.QueryEngineStub;
 import com.cmput291p2.group2.common.Review;
 import org.junit.Before;
@@ -13,7 +12,8 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.Locale;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 public class QueryControllerTest {
 
@@ -181,6 +181,7 @@ public class QueryControllerTest {
             assertTrue(review.getTimeAsDate().after(rdateGTDate));
         }
     }
+
     @Test
     public void test9b_queryAndRdateLTComparison() throws ParseException {
         String titleOrSummaryOrText = "camera";
