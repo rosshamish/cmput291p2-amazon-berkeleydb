@@ -2,7 +2,10 @@ package com.cmput291p2.group2.Phase3;
 
 import com.cmput291p2.group2.common.Review;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * class QueryController is responsible for performing high-level
@@ -47,6 +50,44 @@ public class QueryController {
      * @return all matching Reviews
      */
     public Collection<Review> executeQuery(String query) {
-        return null;
+        try {
+            Collection<String> subQueries = this.splitQuery(query);
+            Boolean firstIteration = true;
+            Set<String> commonSet = new HashSet<>();
+            for (String q : subQueries) {
+                if (firstIteration) {
+                    commonSet.addAll(queryEngine.executeQuery(q));
+                } else {
+                    commonSet.retainAll(queryEngine.executeQuery(q));
+                }
+            }
+            Collection<Review> reviews = new ArrayList<>();
+            for (String r : commonSet){
+                reviews.add(new Review(r));
+            }
+            return reviews;
+        } catch (Exception ex)
+        {
+            System.out.println("Invalid query, please try again.");
+            return new ArrayList<>();
+        }
+    }
+
+    //Every sub query is one term unless it contains > or <
+    private Collection<String> splitQuery(String query) {
+        ArrayList<String> subQueries = new ArrayList<>();
+        String[] spaceSplitQuery = query.split("\\s");
+        for (int i = 0; i < spaceSplitQuery.length; i++)
+        {
+            if (i < spaceSplitQuery.length - 2 && spaceSplitQuery[i+1].matches(">|<"))
+            {
+                subQueries.add(String.format("%s %s %s",
+                        spaceSplitQuery[i], spaceSplitQuery[i+1], spaceSplitQuery[i+2]));
+                i = i + 2;
+            } else {
+                subQueries.add(spaceSplitQuery[i]);
+            }
+        }
+        return subQueries;
     }
 }

@@ -1,6 +1,7 @@
 package com.cmput291p2.group2.Phase3;
 
 import java.io.File;
+import java.util.Set;
 
 /**
  * class QueryEngine is responsible for performing query operations
@@ -26,5 +27,10 @@ public class QueryEngine implements IQueryEngine {
         this.ptIndex = ptIndex;
         this.rtIndex = rtIndex;
         this.scIndex = scIndex;
+    }
+
+    public Set<String> executeQuery(String query)
+    {
+        return null;
     }
 }
