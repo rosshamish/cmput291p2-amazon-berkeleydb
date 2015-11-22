@@ -76,7 +76,7 @@ public class QueryController {
     //Every sub query is one term unless it contains > or <
     private Collection<String> splitQuery(String query) {
         ArrayList<String> subQueries = new ArrayList<>();
-        String[] spaceSplitQuery = query.split("\\s");
+        String[] spaceSplitQuery = query.split("\\s+");
         for (int i = 0; i < spaceSplitQuery.length; i++)
         {
             if (i < spaceSplitQuery.length - 2 && spaceSplitQuery[i+1].matches(">|<"))

@@ -1,7 +1,7 @@
 package com.cmput291p2.group2.Phase3.test;
 
 import com.cmput291p2.group2.Phase3.QueryController;
-import com.cmput291p2.group2.Phase3.stub.QueryEngineStub;
+import com.cmput291p2.group2.Phase3.QueryEngine;
 import com.cmput291p2.group2.common.Review;
 import org.junit.Before;
 import org.junit.Test;
@@ -21,7 +21,7 @@ public class QueryControllerTest {
 
     @Before
     public void setup() {
-        qc = new QueryController(new QueryEngineStub());
+        qc = new QueryController(new QueryEngine("rw.idx", "pt.idx", "rt.idx", "sc.idx"));
     }
 
     @Test
