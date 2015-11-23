@@ -51,6 +51,7 @@ public class QueryController {
      */
     public Collection<Review> executeQuery(String query) {
         try {
+            query = query.toLowerCase();
             Collection<String> subQueries = this.splitQuery(query);
             Boolean firstIteration = true;
             Set<String> commonSet = new HashSet<>();

@@ -46,6 +46,11 @@ public class QueryEngine implements IQueryEngine {
 
     public Set<String> executeQuery(String query)
     {
+        Set<String> r = matchQuery(query, true, true, true);
+        for (String s : r)
+        {
+            System.out.println(s);
+        }
         return null;
     }
 
@@ -93,7 +98,7 @@ public class QueryEngine implements IQueryEngine {
         } catch (Exception e)
         {
             if (Debugging.isEnabled()) {
-                System.err.printf("QueryFailed: %s\n", e.getMessage());
+                System.err.printf("Double Range Query Failed: %s\n", e.getMessage());
             }
         }
         return getReviewsByIds(results);
@@ -133,7 +138,7 @@ public class QueryEngine implements IQueryEngine {
         } catch (Exception e)
         {
             if (Debugging.isEnabled()) {
-                System.err.printf("QueryFailed: %s\n", e.getMessage());
+                System.err.printf("Date or Price Query Failed: %s\n", e.getMessage());
             }
         }
         return results;
@@ -158,14 +163,57 @@ public class QueryEngine implements IQueryEngine {
         }
     }
 
-    private Set<String> prefixQuery(String query)
+    private Set<String> matchQuery(String query, Boolean isPTerm, Boolean isRTerm, Boolean isPrefix)
     {
-        return null;
+        Set<Integer> results = new HashSet<>();
+        try {
+            if (isPTerm) {
+                results.addAll(matchQueryHelper(query, this.ptIndex.openCursor(null, null), isPrefix));
+            }
+            if (isRTerm) {
+                results.addAll(matchQueryHelper(query, this.rtIndex.openCursor(null, null), isPrefix));
+            }
+        } catch (Exception e)
+        {
+            if (Debugging.isEnabled()) {
+                System.err.printf("Match query failed: %s\n", e.getMessage());
+            }
+        }
+        return getReviewsByIds(results);
     }
 
-    private Set<String> matchQuery(String query)
+    private Set<Integer> matchQueryHelper(String query, Cursor cursor, Boolean isPrefix)
     {
-        return null;
+        Set<Integer> results = new HashSet<>();
+        try {
+            OperationStatus oprStatus;
+            DatabaseEntry key = new DatabaseEntry();
+            DatabaseEntry data = new DatabaseEntry();
+            oprStatus = cursor.getFirst(key, data, LockMode.DEFAULT);
+            while (oprStatus == OperationStatus.SUCCESS) {
+                String keyResult = new String(key.getData());
+                if (isPrefix)
+                {
+                    if (keyResult.length() >= query.length() && keyResult.substring(0, query.length()).equals(query)) {
+                        results.add(Integer.parseInt(new String(data.getData())));
+                    }
+                } else {
+                    if (keyResult.equals(query))
+                    {
+                        results.add(Integer.parseInt(new String(data.getData())));
+                    }
+                }
+                key = new DatabaseEntry();
+                data = new DatabaseEntry();
+                oprStatus = cursor.getNext(key, data, LockMode.DEFAULT);
+            }
+        } catch (Exception e)
+        {
+            if (Debugging.isEnabled()) {
+                System.err.printf("Match query failed: %s\n", e.getMessage());
+            }
+        }
+        return results;
     }
 
     private Set<String> getReviewsByIds(Set<Integer> ids)
