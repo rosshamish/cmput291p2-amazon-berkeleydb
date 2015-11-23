@@ -41,7 +41,12 @@ TODO
 
 ### Test
 
-- Open IntelliJ (or Eclipse)
+`$ export JUNIT_PATH=/path/to/junit4.jar` (not needed on Comp Sci lab machines)
+`$ make test`
+
+OR
+
+- Import project into IntelliJ (or Eclipse) as a Java project
 - Phase 1: Right-click Phase1/test/ReviewFileWriterTest -> Run
 - Phase 3: Right-click Phase3/test/QueryControllerTest -> Run
 
