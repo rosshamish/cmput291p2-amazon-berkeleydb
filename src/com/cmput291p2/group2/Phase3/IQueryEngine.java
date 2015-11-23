@@ -7,4 +7,6 @@ import java.util.Set;
  */
 public interface IQueryEngine {
     public Set<String> executeQuery(String query);
+
+
 }

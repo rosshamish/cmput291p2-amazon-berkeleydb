@@ -7,6 +7,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Collection;
+import java.util.Iterator;
 
 /**
  * class QueryIO is responsible for collecting user input from the command line, and for
@@ -25,11 +26,22 @@ public class QueryIO {
     }
 
     public void printOutput(String message) {
-        // ...
+        System.out.println(message);
     }
 
     public void printTable(Collection<Review> reviews) {
-        // ...
+        if (reviews.size() == 0) {
+            System.out.println("Your Query has no results");
+
+        }
+
+        else{
+            Iterator<Review> itr = reviews.iterator();
+            while(itr.hasNext()) {
+                Review review = itr.next();
+                System.out.println(Review.rowDescription());
+            }
+        }
     }
 
     private String readLine(String format, Object... args) {
