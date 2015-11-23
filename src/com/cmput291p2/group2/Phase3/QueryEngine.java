@@ -46,11 +46,6 @@ public class QueryEngine implements IQueryEngine {
 
     public Set<String> executeQuery(String query)
     {
-        Set<String> b = dateOrPriceRangeQuery(query);
-        for (String s : b)
-        {
-            System.out.println(s);
-        }
         return null;
     }
 
@@ -70,31 +65,29 @@ public class QueryEngine implements IQueryEngine {
             if (operand.equals(">")) {
                 //Start at the back and work up to that number
                 oprStatus = cursor.getLast(key, data, LockMode.DEFAULT);
-                reviewId = Integer.parseInt(new String(data.getData()));
                 score = Double.parseDouble(new String(key.getData()));
                 while (score > searchNumber && oprStatus == OperationStatus.SUCCESS)
                 {
+                    reviewId = Integer.parseInt(new String(data.getData()));
+                    score = Double.parseDouble(new String(key.getData()));
                     results.add(reviewId);
                     key = new DatabaseEntry();
                     data = new DatabaseEntry();
                     oprStatus = cursor.getPrev(key, data, LockMode.DEFAULT);
-                    reviewId = Integer.parseInt(new String(data.getData()));
-                    score = Double.parseDouble(new String(key.getData()));
                 }
             }
             if (operand.equals("<")) {
                 //Start at the front and work up to that number
                 oprStatus = cursor.getFirst(key, data, LockMode.DEFAULT);
-                reviewId = Integer.parseInt(new String(data.getData()));
                 score = Double.parseDouble(new String(key.getData()));
                 while (score < searchNumber && oprStatus == OperationStatus.SUCCESS)
                 {
+                    reviewId = Integer.parseInt(new String(data.getData()));
+                    score = Double.parseDouble(new String(key.getData()));
                     results.add(reviewId);
                     key = new DatabaseEntry();
                     data = new DatabaseEntry();
                     oprStatus = cursor.getNext(key, data, LockMode.DEFAULT);
-                    reviewId = Integer.parseInt(new String(data.getData()));
-                    score = Double.parseDouble(new String(key.getData()));
                 }
             }
         } catch (Exception e)
@@ -119,19 +112,23 @@ public class QueryEngine implements IQueryEngine {
             String queryData = brokenQuery[2];
             Cursor cursor = this.rwIndex.openCursor(null, null);
             oprStatus = cursor.getFirst(key, data, LockMode.DEFAULT);
-            foundData = keyDataToReviewString(key, data);
             while (oprStatus == OperationStatus.SUCCESS)
             {
-                if (operand.equals("<") && !dateOrPriceCompare(queryData, foundData)) {
-                    results.add(foundData);
-                }
-                if (operand.equals(">") && dateOrPriceCompare(queryData, foundData)) {
-                    results.add(foundData);
+                foundData = keyDataToReviewString(key, data);
+                try {
+                    if (operand.equals("<") && !dateOrPriceCompare(queryData, foundData)) {
+                        results.add(foundData);
+                    }
+                    if (operand.equals(">") && dateOrPriceCompare(queryData, foundData)) {
+                        results.add(foundData);
+                    }
+                    //Parsing int can throw error if its value "unknown", which means it wont match query
+                } catch (Exception e)
+                {
                 }
                 key = new DatabaseEntry();
                 data = new DatabaseEntry();
                 oprStatus = cursor.getNext(key, data, LockMode.DEFAULT);
-                foundData = keyDataToReviewString(key, data);
             }
         } catch (Exception e)
         {
@@ -142,21 +139,22 @@ public class QueryEngine implements IQueryEngine {
         return results;
     }
 
-    //If data is greater than otherData, return true
+    //If other data is greater than data, return true
     private Boolean dateOrPriceCompare(String data, String otherData)
     {
         Review reviewData = new Review(otherData);
         if (data.contains("/")) {
             String[] dateData = data.split("/");
-            Calendar thisDate = Calendar.getInstance();
+            Calendar thisDate = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
             //year month day
             thisDate.set(Integer.parseInt(dateData[0]), Integer.parseInt(dateData[1]), Integer.parseInt(dateData[2]));
             Calendar otherDate = Calendar.getInstance();
-            otherDate.setTimeInMillis(Long.parseLong(reviewData.getTime()));
-            return thisDate.compareTo(otherDate) > 0;
+            //Takes in milliseconds, timestamp is in seconds
+            otherDate.setTimeInMillis(Long.valueOf(reviewData.getTime()) * 1000);
+            return thisDate.before(otherDate);
         }
         else {
-            return Double.parseDouble(data) > Double.parseDouble(reviewData.getPrice());
+            return Double.parseDouble(reviewData.getPrice()) > Double.parseDouble(data);
         }
     }
 
