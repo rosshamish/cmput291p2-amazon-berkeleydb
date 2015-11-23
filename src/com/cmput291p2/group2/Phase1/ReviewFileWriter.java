@@ -20,7 +20,12 @@ public class ReviewFileWriter {
     public static final String rTermFile = "rterms.txt";
     public static final String scoreFile = "scores.txt";
     private static final String regexSplit = "[^0-9a-zA-Z_]";
-
+    
+    private static FileWriter fwReview;
+    private static FileWriter fwPTerm;
+    private static FileWriter fwRTerm;
+    private static FileWriter fwScore;
+    
     public void run() {
         this.run(new BufferedReader(new InputStreamReader(System.in)));
     }
@@ -39,7 +44,7 @@ public class ReviewFileWriter {
     public void run(BufferedReader reader) {
         try {
             this.clearOutputFiles();
-
+            this.openOutputFilesForAppend();
             String line;
             ArrayList<String> reviewDetails = new ArrayList<>();
             while ((line = reader.readLine()) != null) {
@@ -55,6 +60,14 @@ public class ReviewFileWriter {
                 System.err.printf("IOException: %s\n", e.getMessage());
             }
             return;
+        }
+        try {
+        	this.closeOutputFiles();
+        } catch (IOException e) {
+        	if (Debugging.isEnabled()) {
+        		System.err.printf("IOException: %s\n", e.getMessage());
+        	}
+        	return;
         }
         System.out.println("Success. Files created:");
         System.out.printf("\t%s\n", reviewFile);
@@ -85,6 +98,26 @@ public class ReviewFileWriter {
         FileWriter fw = new FileWriter(filename);
         fw.write("");
         fw.close();
+    }
+    
+    /**
+     * Open all output files for appending
+     */
+    private void openOutputFilesForAppend() throws IOException {
+    	fwReview = new FileWriter(reviewFile, true);
+    	fwPTerm = new FileWriter(pTermFile, true);
+    	fwRTerm = new FileWriter(rTermFile, true);
+    	fwScore = new FileWriter(scoreFile, true);
+    }
+    
+    /**
+     * Closes all output files
+     */
+    private void closeOutputFiles() throws IOException {
+    	fwReview.close();
+    	fwPTerm.close();
+    	fwRTerm.close();
+    	fwScore.close();
     }
 
     /**
@@ -127,9 +160,7 @@ public class ReviewFileWriter {
             reviewString += System.lineSeparator();
         }
         try {
-            FileWriter fw = new FileWriter(reviewFile, true);
-            fw.write(reviewString);
-            fw.close();
+            fwReview.write(reviewString);
         } catch (IOException e) {
             if (Debugging.isEnabled()) {
                 System.err.printf("Filewrite IOException: %s\n", e.getMessage());
@@ -145,7 +176,6 @@ public class ReviewFileWriter {
      */
     private void appendPTerm(Review review, Boolean trailingNewline) {
         try {
-            FileWriter fw = new FileWriter(pTermFile, true);
             String[] terms = review.getTitle().split(regexSplit);
             for (int i = 0; i < terms.length; i++) {
                 String term = terms[i];
@@ -155,10 +185,9 @@ public class ReviewFileWriter {
                     if (i < terms.length - 1 || trailingNewline) {
                         toWrite += System.lineSeparator();
                     }
-                    fw.write(toWrite);
+                    fwPTerm.write(toWrite);
                 }
             }
-            fw.close();
         } catch (IOException e) {
             if (Debugging.isEnabled()) {
                 System.err.printf("Filewrite IOException: %s\n", e.getMessage());
@@ -174,13 +203,12 @@ public class ReviewFileWriter {
      */
     private void appendRTerm(Review review, Boolean trailingNewline) {
         try {
-            FileWriter fw = new FileWriter(rTermFile, true);
             for (String term : review.getSummary().split(regexSplit)) {
                 if (term.length() >= 3) {
                     String toWrite = String.format("%s,%d",
                             term.toLowerCase(), review.getReviewId());
                     toWrite += System.lineSeparator();
-                    fw.write(toWrite);
+                    fwRTerm.write(toWrite);
                 }
             }
             String[] terms = review.getText().split(regexSplit);
@@ -192,10 +220,9 @@ public class ReviewFileWriter {
                     if (i < terms.length - 1 || trailingNewline) {
                         toWrite += System.lineSeparator();
                     }
-                    fw.write(toWrite);
+                    fwRTerm.write(toWrite);
                 }
             }
-            fw.close();
         } catch (IOException e) {
             if (Debugging.isEnabled()) {
                 System.err.printf("Filewrite IOException: %s\n", e.getMessage());
@@ -211,13 +238,11 @@ public class ReviewFileWriter {
      */
     private void appendScore(Review review, Boolean trailingNewline) {
         try {
-            FileWriter fw = new FileWriter(scoreFile, true);
             String toWrite = String.format("%s,%d", review.getScore(), review.getReviewId());
             if (trailingNewline) {
                 toWrite += System.lineSeparator();
             }
-            fw.write(toWrite);
-            fw.close();
+            fwScore.write(toWrite);
         } catch (IOException e) {
             if (Debugging.isEnabled()) {
                 System.err.printf("Filewrite IOException: %s\n", e.getMessage());
