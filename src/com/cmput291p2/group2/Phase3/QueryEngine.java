@@ -220,12 +220,14 @@ public class QueryEngine implements IQueryEngine {
     {
         Set<String> results = new HashSet<>();
         try {
-            DatabaseEntry key = new DatabaseEntry();
-            DatabaseEntry data = new DatabaseEntry();
+            DatabaseEntry key;
+            DatabaseEntry data;
             Cursor cursor = this.rwIndex.openCursor(null, null);
             for (Integer id : ids)
             {
                 String keyString = id.toString();
+                key = new DatabaseEntry();
+                data = new DatabaseEntry();
                 key.setData(keyString.getBytes());
                 key.setSize(keyString.length());
                 cursor.getSearchKey(key, data, LockMode.DEFAULT);
