@@ -1,6 +1,9 @@
 
 SHELL := /bin/bash
 
+export CLASSPATH=$CLASSPATH:.:/usr/share/java/db.jar
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/oracle/lib
+
 all: build1 build2 build3
 	@printf '\nBuild complete.\n\n'
 	@printf 'Phase 1: $ java -cp build:. com.cmput291p2.group2.Phase1.Main\n'
