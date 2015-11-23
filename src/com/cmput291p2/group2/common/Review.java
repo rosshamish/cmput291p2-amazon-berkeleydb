@@ -1,5 +1,6 @@
 package com.cmput291p2.group2.common;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.regex.Matcher;
@@ -82,10 +83,25 @@ public class Review {
      * This constructor should be used by {@link com.cmput291p2.group2.Phase2.IndexBuilder}.
      */
     public Review(String commaSeparatedAttributes) {
-        String[] attributes = commaSeparatedAttributes.split(",");
+        ArrayList<String> attributes = new ArrayList<>();
+        Integer previousIndex = 0;
+        Boolean escaped = false;
+        for(int i = 0; i < commaSeparatedAttributes.length(); i++)
+        {
+            if(commaSeparatedAttributes.charAt(i) == '\"')
+            {
+                escaped = !escaped;
+            }
+            if(commaSeparatedAttributes.charAt(i) == ',' && !escaped)
+            {
+                attributes.add(commaSeparatedAttributes.substring(previousIndex, i));
+                previousIndex = i + 1;
+            }
+        }
+        attributes.add(commaSeparatedAttributes.substring(previousIndex, commaSeparatedAttributes.length()));
         try {
-            for (int i = 0; i < attributes.length; i++) {
-                this.setAttribute(i, attributes[i]);
+            for (int i = 0; i < attributes.size(); i++) {
+                this.setAttribute(i, attributes.get(i));
             }
         } catch (UnknownAttributeException e) {
             System.err.println(e.getMessage());
