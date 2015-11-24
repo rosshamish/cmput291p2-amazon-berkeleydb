@@ -54,7 +54,10 @@ public class ReviewFileWriter {
                     reviewDetails.add(line);
                 }
             }
-            this.writeOutput(reviewDetails, false);
+            //In case empty lines at end of file
+            if (reviewDetails.size() > 1) {
+                this.writeOutput(reviewDetails, false);
+            }
         } catch (IOException e) {
             if (Debugging.isEnabled()) {
                 System.err.printf("IOException: %s\n", e.getMessage());
@@ -188,9 +191,9 @@ public class ReviewFileWriter {
                     fwPTerm.write(toWrite);
                 }
             }
-        } catch (IOException e) {
+        } catch (Exception e) {
             if (Debugging.isEnabled()) {
-                System.err.printf("Filewrite IOException: %s\n", e.getMessage());
+                System.err.printf("AppendPTerm failed: %s\n", e.getMessage());
             }
         }
     }

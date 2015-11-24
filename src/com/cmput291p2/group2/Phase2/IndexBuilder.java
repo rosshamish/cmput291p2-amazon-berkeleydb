@@ -34,14 +34,19 @@ public class IndexBuilder implements Runnable {
     public void run() {
         Runtime run = Runtime.getRuntime();
         try {
-            run.exec(new String[]{"/bin/sh", "-c", allowScript});
-            run.exec(new String[]{"/bin/sh", "-c", makeRW});
-            run.exec(new String[]{"/bin/sh", "-c", makePT});
-            run.exec(new String[]{"/bin/sh", "-c", makeRT});
-            run.exec(new String[]{"/bin/sh", "-c", makeSC});
-        } catch (IOException e) {
+            Process allow = run.exec(new String[]{"/bin/sh", "-c", allowScript});
+            allow.waitFor();
+            Process rw = run.exec(new String[]{"/bin/sh", "-c", makeRW});
+            Process pt = run.exec(new String[]{"/bin/sh", "-c", makePT});
+            Process rt =run.exec(new String[]{"/bin/sh", "-c", makeRT});
+            Process sc = run.exec(new String[]{"/bin/sh", "-c", makeSC});
+            rw.waitFor();
+            pt.waitFor();
+            rt.waitFor();
+            sc.waitFor();
+        } catch (Exception e) {
             if (Debugging.isEnabled()) {
-                System.err.printf("ShellFailed IOException: %s\n", e.getMessage());
+                System.err.printf("ShellFailed Exception: %s\n", e.getMessage());
             }
             return;
         }
