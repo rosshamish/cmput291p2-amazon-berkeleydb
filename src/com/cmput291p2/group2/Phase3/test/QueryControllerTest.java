@@ -110,10 +110,6 @@ public class QueryControllerTest {
         assertNotNull(reviews);
         assertTrue(reviews.size() > 0);
         for (Review review : reviews) {
-            if (!(Double.valueOf(review.getScore()) > Double.valueOf(rscoreGT))) {
-                System.out.printf("review score: %s, rscoreGT: %s\n",
-                        review.getScore(), rscoreGT);
-            }
             assertTrue(Double.valueOf(review.getScore()) > Double.valueOf(rscoreGT));
         }
     }
@@ -206,8 +202,8 @@ public class QueryControllerTest {
                     review.getSummary().toLowerCase().contains(titleOrSummaryOrText) ||
                     review.getText().toLowerCase().contains(titleOrSummaryOrText));
             if (!(review.getTimeAsCalendar().before(rdateLTCal))) {
-                System.out.printf("review time: %s, rdate: %s\n",
-                        review.getTime(), rdateLT);
+                System.out.printf("query: %s, review time: %s, rdate: %s\n",
+                        query, review.getTime(), rdateLT);
             }
             assertTrue(review.getTimeAsCalendar().before(rdateLTCal));
         }
