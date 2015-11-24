@@ -108,7 +108,7 @@ public class QueryControllerTest {
         assertNotNull(reviews);
         assertTrue(reviews.size() > 0);
         for (Review review : reviews) {
-            assertTrue(Integer.valueOf(review.getScore()) > Integer.valueOf(rscoreGT));
+            assertTrue(Double.valueOf(review.getScore()) > Double.valueOf(rscoreGT));
         }
     }
 
@@ -125,7 +125,7 @@ public class QueryControllerTest {
             assertTrue(review.getTitle().toLowerCase().contains(titleOrSummaryOrText) ||
                     review.getSummary().toLowerCase().contains(titleOrSummaryOrText) ||
                     review.getText().toLowerCase().contains(titleOrSummaryOrText));
-            assertTrue(Integer.valueOf(review.getScore()) < Integer.valueOf(rscoreLT));
+            assertTrue(Double.valueOf(review.getScore()) < Double.valueOf(rscoreLT));
         }
     }
 
