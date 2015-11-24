@@ -21,14 +21,14 @@ public class IndexBuilder implements Runnable {
     public static final String scIndexFilename = "sc.idx";
 
     private static final String allowScript = "chmod u+x break.pl";
-    private static final String makeRW = String.format("cat %s | ./break.pl | db_load -c duplicates=1 -T -t hash %s",
-            ReviewFileWriter.reviewFile, rwIndexFilename);
-    private static final String makePT = String.format("cat %s | sort -u | ./break.pl | db_load -c duplicates=1 -T -t btree %s",
-            ReviewFileWriter.pTermFile, ptIndexFilename);
-    private static final String makeRT = String.format("cat %s | sort -u | ./break.pl | db_load -c duplicates=1 -T -t btree %s",
-            ReviewFileWriter.rTermFile, rtIndexFilename);
-    private static final String makeSC = String.format("cat %s | sort -u | ./break.pl | db_load -c duplicates=1 -T -t btree %s",
-            ReviewFileWriter.scoreFile, scIndexFilename);
+    private static final String makeRW = String.format("rm -f %s; cat %s | ./break.pl | db_load -c duplicates=1 -T -t hash %s",
+            rwIndexFilename, ReviewFileWriter.reviewFile, rwIndexFilename);
+    private static final String makePT = String.format("rm -f %s; cat %s | sort -u | ./break.pl | db_load -c duplicates=1 -T -t btree %s",
+            ptIndexFilename, ReviewFileWriter.pTermFile, ptIndexFilename);
+    private static final String makeRT = String.format("rm -f %s; cat %s | sort -u | ./break.pl | db_load -c duplicates=1 -T -t btree %s",
+            rtIndexFilename, ReviewFileWriter.rTermFile, rtIndexFilename);
+    private static final String makeSC = String.format("rm -f %s; cat %s | sort -u | ./break.pl | db_load -c duplicates=1 -T -t btree %s",
+            scIndexFilename, ReviewFileWriter.scoreFile, scIndexFilename);
 
 
     public void run() {
