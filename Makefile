@@ -7,7 +7,7 @@ endif
 export CLASSPATH=$CLASSPATH:.:/usr/share/java/db.jar:$(JUNIT_PATH)
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/oracle/lib
 
-all: build1 build2 build3
+all: buildall
 	cp src/com/cmput291p2/group2/Phase2/scripts/break.pl .
 	@printf '\nBuild complete.\n\n'
 	
@@ -34,6 +34,8 @@ all: build1 build2 build3
 	@printf '>> cam%% rscore < 4\n'
 	@printf '...output...\n'
 
+buildall: build1 build2 build3
+
 build1:
 	@printf 'Building Phase 1...\n'
 	mkdir -p build
@@ -58,7 +60,7 @@ test1: build1
 		org.junit.runner.JUnitCore \
 		com.cmput291p2.group2.Phase1.test.ReviewFileWriterTest
 
-test3: build1 build2 build3
+test3: buildall
 	@printf '\n\n[Phase 3] Test Cases\n'
 	@printf '...running Phase1 with size=10k\n'
 	@cat src/com/cmput291p2/group2/Phase1/test/10k/10k.txt | java -cp build:. com.cmput291p2.group2.Phase1.Main
@@ -70,7 +72,7 @@ test3: build1 build2 build3
 		org.junit.runner.JUnitCore \
 		com.cmput291p2.group2.Phase3.test.QueryControllerTest
 
-test3big: build1 build2 build3
+test3big: buildall
 	@printf '\n\n[Phase 3] Test Cases with BIG input\n'
 	@printf '...running Phase1 with size=100k\n'
 	@cat src/com/cmput291p2/group2/Phase1/test/100k/100k.txt | java -cp build:. com.cmput291p2.group2.Phase1.Main
@@ -82,7 +84,7 @@ test3big: build1 build2 build3
 		org.junit.runner.JUnitCore \
 		com.cmput291p2.group2.Phase3.test.QueryControllerTest
 
-test3eclass:
+test3eclass: buildall
 	@printf '\n\n[Phase 3] Test Cases from eClass classmates\n'
 	@printf '...running Phase1 with size=1k\n'
 	@cat src/com/cmput291p2/group2/Phase1/test/1k/1k.txt | java -cp build:. com.cmput291p2.group2.Phase1.Main
