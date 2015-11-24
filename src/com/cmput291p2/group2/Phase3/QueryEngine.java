@@ -181,7 +181,10 @@ public class QueryEngine implements IQueryEngine {
             Calendar thisDate = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
             thisDate.clear();
             //year month day
-            thisDate.set(Integer.parseInt(dateData[0]), Integer.parseInt(dateData[1]), Integer.parseInt(dateData[2]));
+            Integer year = Integer.parseInt(dateData[0]);
+            Integer month = Integer.parseInt(dateData[1]) - 1; // months are 0-based
+            Integer day = Integer.parseInt(dateData[2]);
+            thisDate.set(year, month, day);
             return thisDate.before(reviewData.getTimeAsCalendar());
         }
         else {
