@@ -36,10 +36,11 @@ public class QueryIO {
         }
 
         else{
+            System.out.println(Review.rowDescription());
             Iterator<Review> itr = reviews.iterator();
             while(itr.hasNext()) {
                 Review review = itr.next();
-                System.out.println(Review.rowDescription());
+                System.out.println(review.rowToString());
             }
         }
     }

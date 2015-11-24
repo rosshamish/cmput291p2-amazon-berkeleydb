@@ -287,6 +287,6 @@ public class Review {
 
     public String rowToString() {
         return reviewId.toString() + "\t" + productId + "\t" + title + "t" + price + "\t" + userId + "\t" + profileName
-                + "\t" + helpfulness + "\t" + score + "\t" + time.toString() + "\t" + summary + "\t" + text +"\n";
+                + "\t" + helpfulness + "\t" + score + "\t" + time.toString() + "\t" + summary + "\t" + text +"\n\n";
     }
 }
