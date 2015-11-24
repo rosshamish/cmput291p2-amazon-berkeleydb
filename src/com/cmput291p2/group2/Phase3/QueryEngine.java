@@ -102,11 +102,9 @@ public class QueryEngine implements IQueryEngine {
             if (operand.equals(">")) {
                 //Start at the back and work up to that number
                 oprStatus = cursor.getLast(key, data, LockMode.DEFAULT);
-                score = Double.parseDouble(new String(key.getData()));
-                while (score > searchNumber && oprStatus == OperationStatus.SUCCESS)
+                while (oprStatus == OperationStatus.SUCCESS && Double.parseDouble(new String(key.getData())) > searchNumber)
                 {
                     reviewId = Integer.parseInt(new String(data.getData()));
-                    score = Double.parseDouble(new String(key.getData()));
                     results.add(reviewId);
                     key = new DatabaseEntry();
                     data = new DatabaseEntry();
@@ -116,11 +114,9 @@ public class QueryEngine implements IQueryEngine {
             if (operand.equals("<")) {
                 //Start at the front and work up to that number
                 oprStatus = cursor.getFirst(key, data, LockMode.DEFAULT);
-                score = Double.parseDouble(new String(key.getData()));
-                while (score < searchNumber && oprStatus == OperationStatus.SUCCESS)
+                while (oprStatus == OperationStatus.SUCCESS && Double.parseDouble(new String(key.getData())) < searchNumber)
                 {
                     reviewId = Integer.parseInt(new String(data.getData()));
-                    score = Double.parseDouble(new String(key.getData()));
                     results.add(reviewId);
                     key = new DatabaseEntry();
                     data = new DatabaseEntry();
