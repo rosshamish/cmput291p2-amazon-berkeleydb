@@ -225,7 +225,6 @@ public class QueryEngine implements IQueryEngine {
                         new String(key.getData()).length() >= query.length() &&
                         new String(key.getData()).substring(0, query.length()).equals(query))
                 {
-                    String keyResult = new String(key.getData());
                     results.add(Integer.parseInt(new String(data.getData())));
                     key = new DatabaseEntry();
                     data = new DatabaseEntry();
@@ -234,7 +233,6 @@ public class QueryEngine implements IQueryEngine {
             } else {
                 oprStatus = cursor.getSearchKey(key, data, LockMode.DEFAULT);
                 while (oprStatus == OperationStatus.SUCCESS && new String(key.getData()).equals(query)) {
-                    String keyResult = new String(key.getData());
                     results.add(Integer.parseInt(new String(data.getData())));
                     key = new DatabaseEntry();
                     data = new DatabaseEntry();
