@@ -134,6 +134,10 @@ public class Review {
         return nextReviewId++;
     }
 
+    public static void resetReviewIds() {
+        nextReviewId = 1;
+    }
+
     /**
      * Sets an attribute of the Review object based on a String of format
      * <pre>
