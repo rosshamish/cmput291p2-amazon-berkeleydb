@@ -13,6 +13,7 @@ CLI for building and querying a faux Amazon reviews database. Uses Berkeley DB.
 ### Demo
 
 ```
+$ export CLASSPATH=$CLASSPATH:.:/usr/share/java/db.jar
 $ cat <filename> | java -cp build:. com.cmput291p2.group2.Phase1.Main
 Success. Files created:
 	reviews.txt
@@ -25,7 +26,7 @@ Success. Files created:
 	pt.idx
 	rt.idx
 	sc.idx
-$ java -cp build:. com.cmput291p2.group2.Phase3.Main
+$ java -cp build:.:$CLASSPATH com.cmput291p2.group2.Phase3.Main
 Amazon Review Query Engine
 
 >> camera
