@@ -227,6 +227,7 @@ public class eClassQueryControllerTest {
             add(new Integer(75));
             add(new Integer(76));
             add(new Integer(77));
+            add(new Integer(81));
             add(new Integer(82));
             add(new Integer(83));
             add(new Integer(84));
@@ -236,6 +237,7 @@ public class eClassQueryControllerTest {
             add(new Integer(88));
             add(new Integer(89));
             add(new Integer(92));
+            add(new Integer(93));
             add(new Integer(94));
             add(new Integer(95));
             add(new Integer(97));
@@ -260,6 +262,7 @@ public class eClassQueryControllerTest {
             add(new Integer(126));
             add(new Integer(129));
             add(new Integer(130));
+            add(new Integer(131));
             add(new Integer(132));
             add(new Integer(133));
             add(new Integer(134));
@@ -389,6 +392,7 @@ public class eClassQueryControllerTest {
             add(new Integer(344));
             add(new Integer(345));
             add(new Integer(347));
+            add(new Integer(348));
             add(new Integer(349));
             add(new Integer(350));
             add(new Integer(351));
