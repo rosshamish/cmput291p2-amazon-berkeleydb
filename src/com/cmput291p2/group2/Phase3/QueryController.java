@@ -58,7 +58,12 @@ public class QueryController {
             for (String q : subQueries) {
                 if (firstIteration) {
                     commonSet.addAll(queryEngine.executeQuery(q));
+                    firstIteration = false;
                 } else {
+                    if (commonSet.size() == 0)
+                    {
+                        break;
+                    }
                     commonSet.retainAll(queryEngine.executeQuery(q));
                 }
             }
