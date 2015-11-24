@@ -204,8 +204,8 @@ public class QueryControllerTest {
                     review.getSummary().toLowerCase().contains(titleOrSummaryOrText) ||
                     review.getText().toLowerCase().contains(titleOrSummaryOrText));
             if (!(review.getTimeAsCalendar().before(rdateLTCal))) {
-                System.out.printf("query: %s, review time: %s, rdate: %s\n",
-                        query, review.getTime(), rdateLT);
+                System.out.printf("query: %s, counter: %d, review time: %s, rdate: %s\n",
+                        query, counter, review.getTime(), rdateLT);
             }
             if (counter == reviews.size()) System.out.println("last, time: " + review.getTime()); //TODO remove
             // assertTrue(review.getTimeAsCalendar().before(rdateLTCal));
