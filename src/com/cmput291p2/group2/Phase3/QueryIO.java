@@ -40,9 +40,7 @@ public class QueryIO {
         Collections.sort(lreviews, new Comparator<Review>() {
             @Override
             public int compare(Review o1, Review o2) {
-                int productId1 = Integer.parseInt(o1.getProductId());
-                int productId2 = Integer.parseInt(o2.getProductId());
-                return productId1 - productId2;
+                return o1.getReviewId() - o2.getReviewId();
             }
         });
         if (reviews.size() == 0) {
