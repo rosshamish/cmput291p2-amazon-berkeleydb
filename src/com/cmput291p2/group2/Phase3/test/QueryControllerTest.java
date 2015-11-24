@@ -197,7 +197,9 @@ public class QueryControllerTest {
 
         assertNotNull(reviews);
         assertTrue(reviews.size() > 0);
+        int counter = 0; //TODO remove
         for (Review review : reviews) {
+            counter++; //TODO remove
             assertTrue(review.getTitle().toLowerCase().contains(titleOrSummaryOrText) ||
                     review.getSummary().toLowerCase().contains(titleOrSummaryOrText) ||
                     review.getText().toLowerCase().contains(titleOrSummaryOrText));
@@ -205,6 +207,7 @@ public class QueryControllerTest {
                 System.out.printf("query: %s, review time: %s, rdate: %s\n",
                         query, review.getTime(), rdateLT);
             }
+            if (counter == reviews.size()) System.out.println("last, time: " + review.getTime()); //TODO remove
             // assertTrue(review.getTimeAsCalendar().before(rdateLTCal));
         }
     }
