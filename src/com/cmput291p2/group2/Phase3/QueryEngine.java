@@ -179,8 +179,6 @@ public class QueryEngine implements IQueryEngine {
         if (data.contains("/")) {
             String[] dateData = data.split("/");
             Calendar thisDate = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
-            thisDate.clear();
-            //year month day
             Integer year = Integer.parseInt(dateData[0]);
             Integer month = Integer.parseInt(dateData[1]) - 1; // months are 0-based
             Integer day = Integer.parseInt(dateData[2]);
