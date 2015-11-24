@@ -139,7 +139,7 @@ public class QueryControllerTest {
         assertNotNull(reviews);
         assertTrue(reviews.size() > 0);
         for (Review review : reviews) {
-            assertTrue(Integer.valueOf(review.getPrice()) < Integer.valueOf(ppriceLT));
+            assertTrue(Double.valueOf(review.getPrice()) < Double.valueOf(ppriceLT));
             assertTrue(review.getTitle().toLowerCase().contains(titleOrSummaryOrText) ||
                     review.getSummary().toLowerCase().contains(titleOrSummaryOrText) ||
                     review.getText().toLowerCase().contains(titleOrSummaryOrText));
@@ -156,7 +156,7 @@ public class QueryControllerTest {
         assertNotNull(reviews);
         assertTrue(reviews.size() > 0);
         for (Review review : reviews) {
-            assertTrue(Integer.valueOf(review.getPrice()) > Integer.valueOf(ppriceGT));
+            assertTrue(Double.valueOf(review.getPrice()) > Double.valueOf(ppriceGT));
             assertTrue(review.getTitle().toLowerCase().contains(titleOrSummaryOrText) ||
                     review.getSummary().toLowerCase().contains(titleOrSummaryOrText) ||
                     review.getText().toLowerCase().contains(titleOrSummaryOrText));
@@ -220,8 +220,8 @@ public class QueryControllerTest {
                     review.getSummary().toLowerCase().contains(titleOrSummaryOrText) ||
                     review.getText().toLowerCase().contains(titleOrSummaryOrText));
             assertTrue(review.getTimeAsDate().after(rdateGTDate));
-            assertTrue(Integer.valueOf(review.getPrice()) > Integer.valueOf(ppriceGT));
-            assertTrue(Integer.valueOf(review.getPrice()) < Integer.valueOf(ppriceLT));
+            assertTrue(Double.valueOf(review.getPrice()) > Double.valueOf(ppriceGT));
+            assertTrue(Double.valueOf(review.getPrice()) < Double.valueOf(ppriceLT));
         }
     }
 
