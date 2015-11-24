@@ -6,8 +6,7 @@ import com.cmput291p2.group2.common.Review;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Collection;
-import java.util.Iterator;
+import java.util.*;
 
 /**
  * class QueryIO is responsible for collecting user input from the command line, and for
@@ -30,6 +29,22 @@ public class QueryIO {
     }
 
     public void printTable(Collection<Review> reviews) {
+
+        List lreviews;
+        if (reviews instanceof List){
+            lreviews = (List)reviews;
+        }
+        else{
+            lreviews = new ArrayList(reviews);
+        }
+        Collections.sort(lreviews, new Comparator<Review>() {
+            @Override
+            public int compare(Review o1, Review o2) {
+                int productId1 = Integer.parseInt(o1.getProductId());
+                int productId2 = Integer.parseInt(o2.getProductId());
+                return productId1 - productId2;
+            }
+        });
         if (reviews.size() == 0) {
             System.out.println("Your Query has no results");
 
@@ -37,7 +52,7 @@ public class QueryIO {
 
         else{
             System.out.println(Review.rowDescription());
-            Iterator<Review> itr = reviews.iterator();
+            Iterator<Review> itr = lreviews.iterator();
             while(itr.hasNext()) {
                 Review review = itr.next();
                 System.out.println(review.rowToString());

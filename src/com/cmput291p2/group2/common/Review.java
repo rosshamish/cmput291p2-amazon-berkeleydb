@@ -269,7 +269,7 @@ public class Review {
     }
 
     public Date getTimeAsDate() {
-        return new Date(Long.valueOf(time));
+        return new Date(Long.valueOf(time) * 1000);
     }
 
     public String getTime() {
