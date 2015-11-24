@@ -26,7 +26,7 @@ public class QueryControllerTest {
 
     @Test
     public void test1_pterm() {
-        String title = "camera";
+        String title = "cameras";
         String query = String.format("p:%s", title);
         Collection<Review> reviews = qc.executeQuery(query);
 
