@@ -267,7 +267,7 @@ public class Review {
     }
 
     public Calendar getTimeAsCalendar() {
-        Calendar c = Calendar.getInstance();
+        Calendar c = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
         c.setTimeInMillis(Long.valueOf(getTime()) * 1000);
         return c;
     }
