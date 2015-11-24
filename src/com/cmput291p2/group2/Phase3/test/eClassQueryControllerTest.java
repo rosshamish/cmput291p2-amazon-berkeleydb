@@ -146,6 +146,7 @@ public class eClassQueryControllerTest {
         }};
         for (Review review : reviews) {
             assertTrue(expectedReviewIds.contains(review.getReviewId()));
+            expectedReviewIds.remove(review.getReviewId());
         }
         assertTrue(expectedReviewIds.isEmpty());
     }
@@ -803,6 +804,7 @@ public class eClassQueryControllerTest {
         }};
         for (Review review : reviews) {
             assertTrue(expectedReviewIds.contains(review.getReviewId()));
+            expectedReviewIds.remove(review.getReviewId());
         }
         assertTrue(expectedReviewIds.isEmpty());
     }
