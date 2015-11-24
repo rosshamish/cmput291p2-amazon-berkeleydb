@@ -51,7 +51,7 @@ build3:
 	mkdir -p build
 	javac -d build src/com/cmput291p2/group2/common/*.java src/com/cmput291p2/group2/Phase3/*.java
 
-test: test1 test3
+test: test1 test3 test3eclass
 
 test1: build1
 	@printf '\n[Phase 1] Test Cases\n'
