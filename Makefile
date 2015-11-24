@@ -68,7 +68,7 @@ test3: build1 build2 build3
 		org.junit.runner.JUnitCore \
 		com.cmput291p2.group2.Phase3.test.QueryControllerTest
 
-test3big: build1 build2 build3:
+test3big: build1 build2 build3
 	@printf '\n\n[Phase 3] Test Cases with BIG input\n'
 	@printf '...running Phase1 with size=100k\n'
 	@cat src/com/cmput291p2/group2/Phase1/test/100k/100k.txt | java -cp build:. com.cmput291p2.group2.Phase1.Main
