@@ -9,6 +9,7 @@ import org.junit.Test;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Locale;
@@ -175,7 +176,8 @@ public class QueryControllerTest {
         String query = String.format("%s rdate > %s", titleOrSummaryOrText, rdateGT);
         Collection<Review> reviews = qc.executeQuery(query);
 
-        Date rdateGTDate = new SimpleDateFormat("yyyy/MM/dd", Locale.ENGLISH).parse(rdateGT);
+        Calendar rdateGTCal = Calendar.getInstance();
+        rdateGTCal.setTime(new SimpleDateFormat("yyyy/MM/dd", Locale.ENGLISH).parse(rdateGT));
 
         assertNotNull(reviews);
         assertTrue(reviews.size() > 0);
@@ -183,7 +185,7 @@ public class QueryControllerTest {
             assertTrue(review.getTitle().toLowerCase().contains(titleOrSummaryOrText) ||
                     review.getSummary().toLowerCase().contains(titleOrSummaryOrText) ||
                     review.getText().toLowerCase().contains(titleOrSummaryOrText));
-            assertTrue(review.getTimeAsDate().after(rdateGTDate));
+            assertTrue(review.getTimeAsCalendar().after(rdateGTCal));
         }
     }
 
@@ -194,7 +196,8 @@ public class QueryControllerTest {
         String query = String.format("%s rdate < %s", titleOrSummaryOrText, rdateLT);
         Collection<Review> reviews = qc.executeQuery(query);
 
-        Date rdateLTDate = new SimpleDateFormat("yyyy/MM/dd", Locale.ENGLISH).parse(rdateLT);
+        Calendar rdateLTCal = Calendar.getInstance();
+        rdateLTCal.setTime(new SimpleDateFormat("yyyy/MM/dd", Locale.ENGLISH).parse(rdateLT));
 
         assertNotNull(reviews);
         assertTrue(reviews.size() > 0);
@@ -202,11 +205,11 @@ public class QueryControllerTest {
             assertTrue(review.getTitle().toLowerCase().contains(titleOrSummaryOrText) ||
                     review.getSummary().toLowerCase().contains(titleOrSummaryOrText) ||
                     review.getText().toLowerCase().contains(titleOrSummaryOrText));
-            if (!(review.getTimeAsDate().before(rdateLTDate))) {
+            if (!(review.getTimeAsCalendar().before(rdateLTCal))) {
                 System.out.printf("review time: %s, rdate: %s\n",
                         review.getTime(), rdateLT);
             }
-            assertTrue(review.getTimeAsDate().before(rdateLTDate));
+            assertTrue(review.getTimeAsCalendar().before(rdateLTCal));
         }
     }
 
@@ -220,7 +223,8 @@ public class QueryControllerTest {
                 titleOrSummaryOrText, rdateGT, ppriceGT, ppriceLT);
         Collection<Review> reviews = qc.executeQuery(query);
 
-        Date rdateGTDate = new SimpleDateFormat("yyyy/MM/dd", Locale.ENGLISH).parse(rdateGT);
+        Calendar rdateGTCal = Calendar.getInstance();
+        rdateGTCal.setTime(new SimpleDateFormat("yyyy/MM/dd", Locale.ENGLISH).parse(rdateGT));
 
         assertNotNull(reviews);
         assertTrue(reviews.size() > 0);
@@ -228,7 +232,7 @@ public class QueryControllerTest {
             assertTrue(review.getTitle().toLowerCase().contains(titleOrSummaryOrText) ||
                     review.getSummary().toLowerCase().contains(titleOrSummaryOrText) ||
                     review.getText().toLowerCase().contains(titleOrSummaryOrText));
-            assertTrue(review.getTimeAsDate().after(rdateGTDate));
+            assertTrue(review.getTimeAsCalendar().after(rdateGTCal));
             assertTrue(Double.valueOf(review.getPrice()) > Double.valueOf(ppriceGT));
             assertTrue(Double.valueOf(review.getPrice()) < Double.valueOf(ppriceLT));
         }
