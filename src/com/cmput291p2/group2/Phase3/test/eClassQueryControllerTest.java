@@ -61,9 +61,6 @@ public class eClassQueryControllerTest {
             add(new Integer(25));
             add(new Integer(47));
             add(new Integer(73));
-            add(new Integer(81));
-            add(new Integer(93));
-            add(new Integer(131));
             add(new Integer(161));
             add(new Integer(164));
             add(new Integer(171));
@@ -82,7 +79,6 @@ public class eClassQueryControllerTest {
             add(new Integer(227));
             add(new Integer(240));
             add(new Integer(303));
-            add(new Integer(348));
             add(new Integer(370));
             add(new Integer(389));
             add(new Integer(390));
