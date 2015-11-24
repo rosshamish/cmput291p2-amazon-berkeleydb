@@ -148,6 +148,11 @@ public class eClassQueryControllerTest {
             assertTrue(expectedReviewIds.contains(review.getReviewId()));
             expectedReviewIds.remove(review.getReviewId());
         }
+        if (expectedReviewIds.size() > 0) {
+            for (Integer reviewId : expectedReviewIds) {
+                System.out.println(reviewId);
+            }
+        }
         assertTrue(expectedReviewIds.isEmpty());
     }
 
