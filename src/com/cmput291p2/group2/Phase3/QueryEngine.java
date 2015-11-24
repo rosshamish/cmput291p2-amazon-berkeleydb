@@ -1,10 +1,10 @@
 package com.cmput291p2.group2.Phase3;
 
-import java.util.*;
-
 import com.cmput291p2.group2.common.Debugging;
 import com.cmput291p2.group2.common.Review;
 import com.sleepycat.db.*;
+
+import java.util.*;
 
 /**
  * class QueryEngine is responsible for performing query operations
@@ -46,12 +46,31 @@ public class QueryEngine implements IQueryEngine {
 
     public Set<String> executeQuery(String query)
     {
-        Set<String> r = matchQuery(query, true, true, true);
-        for (String s : r)
-        {
-            System.out.println(s);
+        Set<String> results = Collections.emptySet();
+        if (query.charAt(0) == 'r' && query.charAt(1) == ':') {
+            String newquery = query.replace("r:","");
+            results = matchQuery(newquery, false, true, false);
+            return results;
         }
-        return null;
+        if (query.charAt(0) == 'p' && query.charAt(1) == ':') {
+            String newquery = query.replace("p:","");
+            results = matchQuery(newquery, true, false, false);
+            return results;
+        }
+        int last = query.length();
+        if (query.charAt(last-1) == '%') {
+            String newquery = query.replace("%","");
+            results = matchQuery(newquery, false, false, true);
+            return results;
+        }
+        if (query.contains("score >") || query.contains("score <")){
+            results = doubleRangeQuery(query);
+            return results;
+        }
+        else{
+            results = dateOrPriceRangeQuery(query);
+            return results;
+        }
     }
 
     private Set<String> doubleRangeQuery(String query)

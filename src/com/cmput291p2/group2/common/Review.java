@@ -282,11 +282,11 @@ public class Review {
 
     public static String rowDescription() {
         return "Review ID\tProduct ID\tTitle\\Price\tUser ID\tProfile Name" +
-                "\tHelpfulness\tScore\tTime\tSummary\tDescription";
+                "\tHelpfulness\tScore\tTime\tSummary\tDescription\n\n";
     }
 
     public String rowToString() {
         return reviewId.toString() + "\t" + productId + "\t" + title + "t" + price + "\t" + userId + "\t" + profileName
-                + "\t" + helpfulness + "\t" + score + "\t" + time.toString() + "\t" + summary + "\t" + text;
+                + "\t" + helpfulness + "\t" + score + "\t" + time.toString() + "\t" + summary + "\t" + text +"\n";
     }
 }
