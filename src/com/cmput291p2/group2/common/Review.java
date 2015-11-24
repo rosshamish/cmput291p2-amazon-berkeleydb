@@ -57,7 +57,7 @@ public class Review {
             for (String inputFileLine : phase1InputFileLines) {
                 inputFileLine = inputFileLine.replaceAll("\"", "&quot;");
                 //NOTE: REGULAR EXPRESSION FOR A SINGLE \ = \\\\, STRING THAT IS \\ = \\\\
-                inputFileLine = inputFileLine.replaceAll("\\\\", "\\\\");
+                inputFileLine = inputFileLine.replace("\\", "\\\\");
                 this.setAttribute(inputFileLine);
             }
         } catch (UnknownAttributeException e) {
