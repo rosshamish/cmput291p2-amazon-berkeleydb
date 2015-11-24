@@ -2,6 +2,7 @@ package com.cmput291p2.group2.Phase3.test;
 
 import com.cmput291p2.group2.Phase3.QueryController;
 import com.cmput291p2.group2.Phase3.QueryEngine;
+import com.cmput291p2.group2.common.Debugging;
 import com.cmput291p2.group2.common.Review;
 import org.junit.Before;
 import org.junit.Test;
@@ -108,6 +109,10 @@ public class QueryControllerTest {
         assertNotNull(reviews);
         assertTrue(reviews.size() > 0);
         for (Review review : reviews) {
+            if (!(Double.valueOf(review.getScore()) > Double.valueOf(rscoreGT))) {
+                System.out.printf("review score: %s, rscoreGT: %s\n",
+                        review.getScore(), rscoreGT);
+            }
             assertTrue(Double.valueOf(review.getScore()) > Double.valueOf(rscoreGT));
         }
     }
@@ -197,6 +202,10 @@ public class QueryControllerTest {
             assertTrue(review.getTitle().toLowerCase().contains(titleOrSummaryOrText) ||
                     review.getSummary().toLowerCase().contains(titleOrSummaryOrText) ||
                     review.getText().toLowerCase().contains(titleOrSummaryOrText));
+            if (!(review.getTimeAsDate().before(rdateLTDate))) {
+                System.out.printf("review time: %s, rdate: %s\n",
+                        review.getTime(), rdateLT);
+            }
             assertTrue(review.getTimeAsDate().before(rdateLTDate));
         }
     }
