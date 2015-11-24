@@ -208,23 +208,30 @@ public class QueryEngine implements IQueryEngine {
             OperationStatus oprStatus;
             DatabaseEntry key = new DatabaseEntry();
             DatabaseEntry data = new DatabaseEntry();
-            oprStatus = cursor.getFirst(key, data, LockMode.DEFAULT);
-            while (oprStatus == OperationStatus.SUCCESS) {
-                String keyResult = new String(key.getData());
-                if (isPrefix)
+            key.setData(query.getBytes());
+            key.setSize(query.length());
+            if (isPrefix)
+            {
+                oprStatus = cursor.getSearchKeyRange(key, data, LockMode.DEFAULT);
+                while (oprStatus == OperationStatus.SUCCESS &&
+                        new String(key.getData()).length() >= query.length() &&
+                        new String(key.getData()).substring(0, query.length()).equals(query))
                 {
-                    if (keyResult.length() >= query.length() && keyResult.substring(0, query.length()).equals(query)) {
-                        results.add(Integer.parseInt(new String(data.getData())));
-                    }
-                } else {
-                    if (keyResult.equals(query))
-                    {
-                        results.add(Integer.parseInt(new String(data.getData())));
-                    }
+                    String keyResult = new String(key.getData());
+                    results.add(Integer.parseInt(keyResult));
+                    key = new DatabaseEntry();
+                    data = new DatabaseEntry();
+                    oprStatus = cursor.getNext(key, data, LockMode.DEFAULT);
                 }
-                key = new DatabaseEntry();
-                data = new DatabaseEntry();
-                oprStatus = cursor.getNext(key, data, LockMode.DEFAULT);
+            } else {
+                oprStatus = cursor.getSearchKey(key, data, LockMode.DEFAULT);
+                while (oprStatus == OperationStatus.SUCCESS && new String(key.getData()).equals(query)) {
+                    String keyResult = new String(key.getData());
+                    results.add(Integer.parseInt(keyResult));
+                    key = new DatabaseEntry();
+                    data = new DatabaseEntry();
+                    oprStatus = cursor.getNext(key, data, LockMode.DEFAULT);
+                }
             }
         } catch (Exception e)
         {
