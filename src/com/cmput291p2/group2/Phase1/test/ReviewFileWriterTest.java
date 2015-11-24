@@ -31,7 +31,7 @@ public class ReviewFileWriterTest {
     }
 
     @Test
-    public void testRun1() throws Exception {
+    public void testRun10() throws Exception {
         reviewFileWriter.run(TEST1_INPUT_FILENAME);
 
         assertTrue(Differ.filesAreSame(TEST1_EXPECTED_REVIEW_FILENAME, ReviewFileWriter.reviewFile));
@@ -39,4 +39,33 @@ public class ReviewFileWriterTest {
         assertTrue(Differ.filesAreSame(TEST1_EXPECTED_PTERM_FILENAME, ReviewFileWriter.pTermFile));
         assertTrue(Differ.filesAreSame(TEST1_EXPECTED_SCORE_FILENAME, ReviewFileWriter.scoreFile));
     }
+    @Test
+    public void testRun1k() throws Exception {
+        reviewFileWriter.run(TEST1_INPUT_FILENAME);
+
+        assertTrue(Differ.filesAreSame(TEST1_EXPECTED_REVIEW_FILENAME, ReviewFileWriter.reviewFile));
+        assertTrue(Differ.filesAreSame(TEST1_EXPECTED_RTERM_FILENAME, ReviewFileWriter.rTermFile));
+        assertTrue(Differ.filesAreSame(TEST1_EXPECTED_PTERM_FILENAME, ReviewFileWriter.pTermFile));
+        assertTrue(Differ.filesAreSame(TEST1_EXPECTED_SCORE_FILENAME, ReviewFileWriter.scoreFile));
+    }
+    @Test
+    public void testRun10k() throws Exception {
+        reviewFileWriter.run(TEST1_INPUT_FILENAME);
+
+        assertTrue(Differ.filesAreSame(TEST1_EXPECTED_REVIEW_FILENAME, ReviewFileWriter.reviewFile));
+        assertTrue(Differ.filesAreSame(TEST1_EXPECTED_RTERM_FILENAME, ReviewFileWriter.rTermFile));
+        assertTrue(Differ.filesAreSame(TEST1_EXPECTED_PTERM_FILENAME, ReviewFileWriter.pTermFile));
+        assertTrue(Differ.filesAreSame(TEST1_EXPECTED_SCORE_FILENAME, ReviewFileWriter.scoreFile));
+    }
+    @Test
+    public void testRun100k() throws Exception {
+        reviewFileWriter.run(TEST1_INPUT_FILENAME);
+
+        assertTrue(Differ.filesAreSame(TEST1_EXPECTED_REVIEW_FILENAME, ReviewFileWriter.reviewFile));
+        assertTrue(Differ.filesAreSame(TEST1_EXPECTED_RTERM_FILENAME, ReviewFileWriter.rTermFile));
+        assertTrue(Differ.filesAreSame(TEST1_EXPECTED_PTERM_FILENAME, ReviewFileWriter.pTermFile));
+        assertTrue(Differ.filesAreSame(TEST1_EXPECTED_SCORE_FILENAME, ReviewFileWriter.scoreFile));
+    }
+
+
 }
