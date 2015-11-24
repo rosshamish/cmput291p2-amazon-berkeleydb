@@ -8,6 +8,7 @@ export CLASSPATH=$CLASSPATH:.:/usr/share/java/db.jar:$(JUNIT_PATH)
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/oracle/lib
 
 all: build1 build2 build3
+	cp src/com/cmput291p2/group2/Phase2/scripts/break.pl .
 	@printf '\nBuild complete.\n\n'
 	
 	@printf 'Usage:\n'
