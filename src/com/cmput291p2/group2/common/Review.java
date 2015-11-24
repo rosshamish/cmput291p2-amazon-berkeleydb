@@ -1,8 +1,6 @@
 package com.cmput291p2.group2.common;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -268,8 +266,10 @@ public class Review {
         return score;
     }
 
-    public Date getTimeAsDate() {
-        return new Date(Long.valueOf(time) * 1000);
+    public Calendar getTimeAsCalendar() {
+        Calendar c = Calendar.getInstance();
+        c.setTimeInMillis(Long.valueOf(getTime()) * 1000);
+        return c;
     }
 
     public String getTime() {
