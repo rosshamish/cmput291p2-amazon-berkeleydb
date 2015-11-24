@@ -14,40 +14,12 @@ import java.util.List;
 public class Differ {
 
     public static Boolean filesAreSame(String expectedFilename, String actualFilename) throws IOException {
-        List<String> expectedList = fileToStringList(expectedFilename);
-        List<String> actualList = fileToStringList(actualFilename);
-        return stringListsAreSame(expectedList, actualList);
-    }
-
-    private static List<String> fileToStringList(String filename) throws IOException {
-        BufferedReader reader = new BufferedReader(new FileReader(new File(filename)));
-        List<String> list = new ArrayList<String>();
-        String line;
-        while ((line = reader.readLine()) != null) {
-            list.add(line);
+        Process diff = Runtime.getRuntime().exec(new String[]{"diff", expectedFilename, actualFilename});
+        try {
+            return (diff.waitFor() == 0);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+            return Boolean.FALSE;
         }
-        return list;
-    }
-
-    public static Boolean stringListsAreSame(List<String> expected, List<String> actual) {
-        if (expected.size() != actual.size()) {
-            return false;
-        }
-
-        for (int i = 0; i < expected.size(); i++) {
-            if (stringsAreDifferent(expected.get(i), actual.get(i))) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    public static Boolean stringsAreDifferent(String expected, String actual) {
-        return !stringsAreSame(expected, actual);
-    }
-
-    public static Boolean stringsAreSame(String expected, String actual) {
-        return expected.equals(actual);
     }
 }

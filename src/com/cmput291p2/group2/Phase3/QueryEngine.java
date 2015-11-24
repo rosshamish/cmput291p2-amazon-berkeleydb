@@ -47,28 +47,41 @@ public class QueryEngine implements IQueryEngine {
     public Set<String> executeQuery(String query)
     {
         Set<String> results = Collections.emptySet();
+        int last = query.length();
+        Boolean ispartial = false;
+        if (query.charAt(last-1) == '%') {
+            ispartial = true;
+        }
         if (query.charAt(0) == 'r' && query.charAt(1) == ':') {
             String newquery = query.replace("r:","");
-            results = matchQuery(newquery, false, true, false);
+            if (ispartial){
+                newquery = newquery.replace("%","");
+            }
+            results = matchQuery(newquery, false, true, ispartial);
             return results;
         }
         if (query.charAt(0) == 'p' && query.charAt(1) == ':') {
             String newquery = query.replace("p:","");
-            results = matchQuery(newquery, true, false, false);
+            if (ispartial){
+                newquery = newquery.replace("%","");
+            }
+            results = matchQuery(newquery, true, false, ispartial);
             return results;
         }
-        int last = query.length();
-        if (query.charAt(last-1) == '%') {
-            String newquery = query.replace("%","");
-            results = matchQuery(newquery, false, false, true);
-            return results;
-        }
+
         if (query.contains("score >") || query.contains("score <")){
             results = doubleRangeQuery(query);
             return results;
         }
-        else{
+        if (query.contains("price <") || query.contains("price >") || query.contains("date >") || query.contains("date <")){
             results = dateOrPriceRangeQuery(query);
+            return results;
+        }
+        else{
+            if (ispartial){
+                query = query.replace("%","");
+            }
+            results = matchQuery(query, true, true, ispartial);
             return results;
         }
     }

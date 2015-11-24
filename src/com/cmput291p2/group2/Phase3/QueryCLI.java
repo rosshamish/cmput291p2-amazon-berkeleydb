@@ -25,7 +25,8 @@ public class QueryCLI {
     }
 
     public void run() {
-        System.out.println("Amazon Review Query Engine\n");
+        System.out.println("Amazon Review Query Engine.");
+        System.out.println("\tCtrl-C to exit.");
 
         while (true) {
             String query = io.getQueryInput();

@@ -11,6 +11,7 @@ all: build1 build2 build3
 	@printf '\nBuild complete.\n\n'
 	
 	@printf 'Usage:\n'
+	@printf '$$ export CLASSPATH=$CLASSPATH:.:/usr/share/java/db.jar\n'
 	@printf '$$ cat <filename> | java -cp build:. com.cmput291p2.group2.Phase1.Main\n'
 	@printf 'Success. Files created:\n'
 	@printf '\treviews.txt\n'
@@ -23,7 +24,7 @@ all: build1 build2 build3
 	@printf '\tpt.idx\n'
 	@printf '\trt.idx\n'
 	@printf '\tsc.idx\n'
-	@printf '$$ java -cp build:. com.cmput291p2.group2.Phase3.Main\n'
+	@printf '$$ java -cp build:.:$CLASSPATH com.cmput291p2.group2.Phase3.Main\n'
 	@printf 'Amazon Review Query Engine\n\n'
 	
 	@printf '>> camera\n'

@@ -2,6 +2,7 @@ package com.cmput291p2.group2.Phase1.test;
 
 import com.cmput291p2.group2.Phase1.ReviewFileWriter;
 import com.cmput291p2.group2.common.Differ;
+import com.cmput291p2.group2.common.Review;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -47,6 +48,7 @@ public class ReviewFileWriterTest {
     @Before
     public void setup() throws Exception {
         reviewFileWriter = new ReviewFileWriter();
+        Review.resetReviewIds();
     }
 
     @Test
