@@ -99,6 +99,14 @@ Phase 3:
 - class QueryController is responsible for parsing the query string into individual, atomic queries. It delegates query execution to the QueryEngine. For queries with multiple sub queries, intersections of results are done at each sub query and for optimization, the program stops looking for matches if an intersection is empty.
 - class QueryEngine is responsible for using the BerkeleyDB indexes created by Phase 2 to execute queries and return Review objects back to the caller. For each query given to the QueryEngine, the type of query is first found and then it is delegated to the appropropiate function to execute. 
 
+### Algorithms and Analysis
+
+- For unindexed queries we check every review for related results. This is in O(n) as it check every review.
+- For queries on a range of scores our program will either start at the back or at the front of the file for scores and iterate towards the given number. We do not use the fact that this file is an index B-Tree. The cost of this algorithm depends on the start of file and end of file cursors. In the worst case, it has to find the start  or end by going down the B-tree which would be in O(logn). Otherwise this is in constant time, O(1).
+- For the ther two word files that are also index B-Trees, the first item or review is found in O(log(n)) time and this is iterated until no other matches are found. 
+- During the execution of queries in Phase 3 we could have optimized the query searches by running all the indexed queries first as they are faster and then check if those reviews also exist in the other queries by using the ids in that result set of reviews.
+- Since each subquery is independent of each other, the cost of the whole algorithm for a query with multiple parts would just be the sum of the costs of the subqueries. 
+
 ### Testing
 
 #### Strategy
