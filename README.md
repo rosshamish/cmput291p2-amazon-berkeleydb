@@ -36,9 +36,6 @@ Amazon Review Query Engine
 ...output...
 ```
 
-### Develop
-
-TODO
 
 ### Test
 
@@ -99,8 +96,8 @@ Phase 3:
 - class Main is the entry point. It delegates to class QueryCLI.
 - class QueryCLI runs the main application loop. It uses an instance of QueryIO to retrieve input and display output. It uses an instance of QueryController to process queries and retrieve matching reviews.
 - class QueryIO has two responsibilities. The first is to retrieve input from the user and return it back to the caller. The second is to display output to the user given information passed by the caller.
-- class QueryController is responsible for parsing the query string into individual, atomic queries. It delegates query execution to the QueryEngine.
-- class QueryEngine is responsible for using the BerkeleyDB indexes created by Phase 2 to execute queries and return Review objects back to the caller.
+- class QueryController is responsible for parsing the query string into individual, atomic queries. It delegates query execution to the QueryEngine. For queries with multiple sub queries, intersections of results are done at each sub query and for optimization, the program stops looking for matches if an intersection is empty.
+- class QueryEngine is responsible for using the BerkeleyDB indexes created by Phase 2 to execute queries and return Review objects back to the caller. For each query given to the QueryEngine, the type of query is first found and then it is delegated to the appropropiate function to execute. 
 
 ### Testing
 
@@ -162,16 +159,16 @@ Work item breakdown
   - *NOTE* Use the `db_load` command to build indexes. Use the `db_dump` command to debug.
 
 - Phase 3: Querying data from a CLI
-  - [ ] P3.1: As a user, I can enter a query and receive human readable output
+  - [x] P3.1: As a user, I can enter a query and receive human readable output
   - [x] P3.2: Program search must be case-insensitive
-  - [ ] P3.3: As a user, I can use queries of form `p:query`
-  - [ ] P3.4: As a user, I can use queries of form `r:query`
-  - [ ] P3.5: As a user, I can use queries of form `query`
-  - [ ] P3.6: As a user, I can use queries of form `que%`
+  - [x] P3.3: As a user, I can use queries of form `p:query`
+  - [x] P3.4: As a user, I can use queries of form `r:query`
+  - [x] P3.5: As a user, I can use queries of form `query`
+  - [x] P3.6: As a user, I can use queries of form `que%`
   - P3.7: As a user, I can use queries of form `rscore|pprice|rdate < val`
-  	- [ ] P3.7.1: As a user, I can use queries of form `rscore < score` (and `>`)
-  	- [ ] P3.7.2: As a user, I can use queries of form `pprice < price` (and `>`)
-  	- [ ] P3.7.3: As a user, I can use queries of form `rdate < date` (and `>`)
+  	- [x] P3.7.1: As a user, I can use queries of form `rscore < score` (and `>`)
+  	- [x] P3.7.2: As a user, I can use queries of form `pprice < price` (and `>`)
+  	- [x] P3.7.3: As a user, I can use queries of form `rdate < date` (and `>`)
   - [x] P3.8: As a user, I can enter queries containing multiple query forms
   - *NOTE* Check the eClass specification for details on all query forms
 
@@ -190,7 +187,7 @@ Work item breakdown
 
 Estimate of time spent
 - Ross Anderson (rhanders): ~10-15 hrs
-- Andrew Bradshaw (abradsha): ~10-1515 hrs
+- Andrew Bradshaw (abradsha): ~10-15 hrs
 - Daniel Shin (dshin): ~10-15 hrs
 
 Functionality implemented by each member
