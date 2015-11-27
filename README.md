@@ -55,7 +55,8 @@ OR
 
 ### Attribution
 
-TODO
+Berkeley DB Tutorial:
+https://eclass.srv.ualberta.ca/mod/page/view.php?id=1635283
 
 ---
 
@@ -67,11 +68,15 @@ CLI for building and querying a faux Amazon reviews database. Uses Berkeley DB.
 
 #### Data Flow Diagram
 
-TODO
+Attached with the document.
 
 #### User Guide
 
-TODO
+- set java classpath to the db.jar
+- pipe the contents of the input file into java -cp build:. com.cmput291p2.group2.Phase1.Main
+- After the txt files have been created run java -cp build:. com.cmput291p2.group2.Phase2.Main to run phase 2
+- After the idx files have been created run java-cp build:.:$CLASSPATH com.cmput291p2.group2.Phase3.Main to run the program on the terminal
+- Then input your queries on the Amazon Review Query Engine to recieve outputs. 
 
 ### Detailed design of the software
 
@@ -114,7 +119,9 @@ Phase 3:
 
 #### Coverage
 
-TODO
+Test cases cover required usages of the application. Test cases assume user is not being malicious or entering improper inputs for queries and follow the query forms given by the assignment specs.
+
+No known bugs.
 
 ### Group work break-down strategy
 
@@ -182,9 +189,9 @@ Work item breakdown
   - REP4: group work breakdown strategy
 
 Estimate of time spent
-- Ross Anderson (rhanders): TODO hrs
-- Andrew Bradshaw (abradsha): TODO hrs
-- Daniel Shin (dshin): TODO hrs
+- Ross Anderson (rhanders): ~10-15 hrs
+- Andrew Bradshaw (abradsha): ~10-1515 hrs
+- Daniel Shin (dshin): ~10-15 hrs
 
 Functionality implemented by each member
 - Ross Anderson (rhanders)
@@ -198,13 +205,14 @@ Functionality implemented by each member
 - Andrew Bradshaw (abradsha)
   - P1.1 through P1.7 (Phase 1)
   - P2.1 through P2.5 (Phase 2)
+  - P3.1 through P3.8 (Phase 3)
 - Daniel Shin (dshin)
-  - TODO
+  - P3.2 through P3.8 (Phase 3)
+  - Documentation
 
 Method of coordination for staying on track
 - Facebook messenger group thread for communication
 - Github repository for code sharing
 
 ### Any assumptions or design decision extraneous to the specification on eClass
-
-TODO
+- None
